@@ -37,7 +37,7 @@
                         SceneStatus();
                         break;
                     case 2:
-                        SceneInventory(SceneType.Inventory);
+                        SceneInventory();
                         break;
                     case 3:
                         SelectRandomAdventure();
@@ -143,10 +143,11 @@
             }
         }
 
-        private static void SceneInventory(SceneType type)
+        private static void SceneInventory()
         {
             int select;
-            bool isDefault = SceneType.Inventory == type;
+            SceneType type = SceneType.Inventory;
+            bool isDefault = true;
             while (true)
             {
                 Console.Clear();
