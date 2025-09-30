@@ -26,7 +26,7 @@ namespace TEXT_RPG
             {
                 Console.WriteLine("스파르타 마을에 오신 여러분 환영합니다.");
                 Console.WriteLine("이곳에서 던전으로 들어가기 전 활동을 할 수 있습니다.\n");
-                WriteSelection(SceneType.Start);
+                UI.WriteSelection(SceneType.Start);
 
                 select = SelectAct(SceneType.Start);
                 Console.Clear();
@@ -40,7 +40,7 @@ namespace TEXT_RPG
                         SceneInventory(SceneType.Inventory);
                         break;
                     default:
-                        WarnBadInput();
+                        UI.WarnBadInput();
                         break;
                 }
             }
@@ -50,7 +50,7 @@ namespace TEXT_RPG
         {
             int select;
             player.ShowStatus();
-            WriteSelection(SceneType.Status);
+            UI.WriteSelection(SceneType.Status);
             select = SelectAct(SceneType.Status);
             if (select == 0)
             {
@@ -67,7 +67,7 @@ namespace TEXT_RPG
             {
                 Console.Clear();
                 player.ShowInventory(type);
-                WriteSelection(type);
+                UI.WriteSelection(type);
                 select = isDefault
                     ? SelectAct(SceneType.Inventory)
                     : SelectAct(SceneType.InventoryManagement);
@@ -104,19 +104,6 @@ namespace TEXT_RPG
             }
         }
 
-        private static void WriteSelection(SceneType type)
-        {
-            string[] selections = sceneSelections[type];
-            for (int i = 1; i < selections.Length; i++)
-            {
-                Console.WriteLine($"{i}. {selections[i]}");
-            }
-
-            if (type == SceneType.Start) { return; }
-
-            Console.WriteLine("0. 나가기");
-        }
-
         private static int SelectAct(SceneType type)
         {
             int count = (type == SceneType.InventoryManagement)
@@ -130,19 +117,15 @@ namespace TEXT_RPG
                 if (int.TryParse(Console.ReadLine(), out int input))
                 {
                     if (input < count && input > -1) { return input; }
-                    else { WarnBadInput(); }
+                    else { UI.WarnBadInput(); }
                 }
                 else
                 {
-                    WarnBadInput();
+                    UI.WarnBadInput();
                 }
             }
         }
 
-        private static void WarnBadInput()
-        {
-            Console.WriteLine("잘못된 입력입니다.");
-        }
 
         class Player
         {
@@ -266,6 +249,26 @@ namespace TEXT_RPG
             public void ChangeItemEquipped()
             {
                 IsEquipped = !IsEquipped;
+            }
+        }
+        static class UI
+        {
+            public static void WarnBadInput()
+            {
+                Console.WriteLine("잘못된 입력입니다.");
+            }
+
+            public static void WriteSelection(SceneType type)
+            {
+                string[] selections = sceneSelections[type];
+                for (int i = 1; i < selections.Length; i++)
+                {
+                    Console.WriteLine($"{i}. {selections[i]}");
+                }
+
+                if (type == SceneType.Start) { return; }
+
+                Console.WriteLine("0. 나가기");
             }
         }
     }
