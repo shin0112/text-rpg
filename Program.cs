@@ -403,5 +403,22 @@
         {
             Console.WriteLine("잘못된 입력입니다.");
         }
+
+        public static void WritePadded(string text, int totalWidth)
+        {
+            int displaywidth = GetDisplayWidth(text);
+            int padding = Math.Max(0, totalWidth - displaywidth);
+            Console.WriteLine(text + new string(' ', padding));
+        }
+
+        private static int GetDisplayWidth(string text)
+        {
+            int width = 0;
+            foreach (char c in text)
+            {
+                width += (c >= 0xAC00 && c <= 0xD7A3) ? 2 : 1; // 한글 탐지
+            }
+            return width;
+        }
     }
 }
