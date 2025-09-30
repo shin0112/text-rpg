@@ -181,7 +181,7 @@
                     }
                     else if (0 < select && select <= player.Items.Count)
                     {
-                        player.Items[select - 1].ToggleEquip();
+                        player.ToggleEquip(select - 1);
                         continue;
                     }
                 }
@@ -222,7 +222,7 @@
             public int Stamina { get; private set; }
             public int Exp { get; private set; }
             public int Gold { get; private set; }
-
+            private Dictionary<ItemType, int> equipped = new Dictionary<ItemType, int>();
             public List<Item> Items { get; }
 
             public bool SpendStamina(int stamina)
@@ -254,6 +254,10 @@
                 Stamina = 20;
                 Exp = 0;
                 Gold = 1500;
+                foreach (ItemType type in Enum.GetValues(typeof(ItemType)))
+                {
+                    equipped[type] = -1;
+                }
 
                 // STEP 5
                 Items = new List<Item>();
@@ -273,6 +277,18 @@
                     else if (item.Type == ItemType.Armor) { defensePower += item.Value; }
                 }
                 return (attackPower, defensePower);
+            }
+
+            public void ToggleEquip(int idx)
+            {
+                int prevIdx = equipped[Items[idx].Type];
+                if (prevIdx >= 0)
+                {
+                    Items[prevIdx].ToggleEquip();
+                }
+
+                equipped[Items[idx].Type] = idx;
+                Items[idx].ToggleEquip();
             }
         }
 
