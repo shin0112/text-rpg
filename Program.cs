@@ -1,20 +1,20 @@
 ﻿
 namespace TEXT_RPG
 {
+    enum PlayerJob { 전사, 마법사, 궁수 }
+    enum ItemType { Weapon, Armor }
+    enum SceneType { Start, Status, Inventory, InventoryManagement }
+
     internal class Program
     {
         private static Player player;
-        private static Dictionary<SceneType, string[]> sceneSelections = new Dictionary<SceneType, string[]>()
+        public static Dictionary<SceneType, string[]> sceneSelections = new Dictionary<SceneType, string[]>()
         {
             { SceneType.Start, ["", "상태 보기", "인벤토리"] },
             { SceneType.Status, ["나가기"] },
             { SceneType.Inventory, ["나가기", "장착 관리"] },
             { SceneType.InventoryManagement, ["나가기"] }
         };
-
-        enum PlayerJob { 전사, 마법사, 궁수 }
-        enum ItemType { Weapon, Armor }
-        enum SceneType { Start, Status, Inventory, InventoryManagement }
 
         static void Main(string[] args)
         {
@@ -26,7 +26,7 @@ namespace TEXT_RPG
             {
                 Console.WriteLine("스파르타 마을에 오신 여러분 환영합니다.");
                 Console.WriteLine("이곳에서 던전으로 들어가기 전 활동을 할 수 있습니다.\n");
-                UI.WriteSelection(SceneType.Start);
+                UI.WriteSelection(SceneType.Start, sceneSelections[SceneType.Start]);
 
                 select = SelectAct(SceneType.Start);
                 Console.Clear();
@@ -50,7 +50,7 @@ namespace TEXT_RPG
         {
             int select;
             player.ShowStatus();
-            UI.WriteSelection(SceneType.Status);
+            UI.WriteSelection(SceneType.Status, sceneSelections[SceneType.Status]);
             select = SelectAct(SceneType.Status);
             if (select == 0)
             {
@@ -67,7 +67,7 @@ namespace TEXT_RPG
             {
                 Console.Clear();
                 player.ShowInventory(type);
-                UI.WriteSelection(type);
+                UI.WriteSelection(type, sceneSelections[type]);
                 select = isDefault
                     ? SelectAct(SceneType.Inventory)
                     : SelectAct(SceneType.InventoryManagement);
@@ -252,25 +252,24 @@ namespace TEXT_RPG
                 IsEquipped = !IsEquipped;
             }
         }
-        static class UI
+    }
+    static class UI
+    {
+        public static void WarnBadInput()
         {
-            public static void WarnBadInput()
+            Console.WriteLine("잘못된 입력입니다.");
+        }
+
+        public static void WriteSelection(SceneType type, string[] selections)
+        {
+            for (int i = 1; i < selections.Length; i++)
             {
-                Console.WriteLine("잘못된 입력입니다.");
+                Console.WriteLine($"{i}. {selections[i]}");
             }
 
-            public static void WriteSelection(SceneType type)
-            {
-                string[] selections = sceneSelections[type];
-                for (int i = 1; i < selections.Length; i++)
-                {
-                    Console.WriteLine($"{i}. {selections[i]}");
-                }
+            if (type == SceneType.Start) { return; }
 
-                if (type == SceneType.Start) { return; }
-
-                Console.WriteLine("0. 나가기");
-            }
+            Console.WriteLine("0. 나가기");
         }
     }
 }
