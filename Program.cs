@@ -4,17 +4,17 @@ namespace TEXT_RPG
     internal class Program
     {
         private static Player player;
-        private static Dictionary<string, string> selectCount = new Dictionary<string, string>()
+        private static Dictionary<SceneType, string[]> sceneSelections = new Dictionary<SceneType, string[]>()
         {
-            { "start", "3" },
-            { "status", "1" },
-            { "inventory", "2" },
-            { "selectManagement", "" }
+            { SceneType.Start, ["상태 보기", "인벤토리"] },
+            { SceneType.Status, ["나가기"] },
+            { SceneType.Inventory, ["나가기", "장착 관리"] },
+            { SceneType.InventoryManagement, ["나가기"] }
         };
 
         enum PlayerJob { 전사, 마법사, 궁수 }
         enum ItemType { Weapon, Armor }
-        enum ShowType { Default, Management }
+        enum SceneType { Start, Status, Inventory, InventoryManagement }
 
         static void Main(string[] args)
         {
@@ -28,7 +28,7 @@ namespace TEXT_RPG
                 Console.WriteLine("1. 상태 보기");
                 Console.WriteLine("2. 인벤토리");
 
-                select = SelectAct("start");
+                select = SelectAct(SceneType.Start);
                 Console.Clear();
 
                 switch (select)
@@ -37,7 +37,7 @@ namespace TEXT_RPG
                         SceneStatus();
                         break;
                     case 2:
-                        SceneInventory(ShowType.Default);
+                        SceneInventory(SceneType.Inventory);
                         break;
                     default:
                         WarnBadInput();
@@ -51,7 +51,7 @@ namespace TEXT_RPG
             int select;
             player.ShowStatus();
             Console.WriteLine("0. 나가기");
-            select = SelectAct("status");
+            select = SelectAct(SceneType.Status);
             if (select == 0)
             {
                 Console.Clear();
@@ -59,10 +59,10 @@ namespace TEXT_RPG
             }
         }
 
-        private static void SceneInventory(ShowType type)
+        private static void SceneInventory(SceneType type)
         {
             int select;
-            bool isDefault = ShowType.Default == type;
+            bool isDefault = SceneType.Inventory == type;
             while (true)
             {
                 Console.Clear();
@@ -73,8 +73,8 @@ namespace TEXT_RPG
                 }
                 Console.WriteLine("0. 나가기");
                 select = isDefault
-                    ? SelectAct("inventory")
-                    : SelectAct("selectManagement");
+                    ? SelectAct(SceneType.Inventory)
+                    : SelectAct(SceneType.InventoryManagement);
 
                 if (isDefault)
                 {
@@ -86,7 +86,7 @@ namespace TEXT_RPG
                     else if (select == 1)
                     {
                         isDefault = false;
-                        type = ShowType.Management;
+                        type = SceneType.InventoryManagement;
                         continue;
                     }
                 }
@@ -96,7 +96,7 @@ namespace TEXT_RPG
                     {
                         Console.Clear();
                         isDefault = true;
-                        type = ShowType.Default;
+                        type = SceneType.Inventory;
                         continue;
                     }
                     else if (0 < select && select <= player.items.Count)
@@ -108,22 +108,20 @@ namespace TEXT_RPG
             }
         }
 
-        private static int SelectAct(string type)
+
+        private static int SelectAct(SceneType type)
         {
-            int count = (type == "selectManagement")
+            int count = (type == SceneType.InventoryManagement)
                 ? player.items.Count + 1
-                : int.Parse(selectCount.GetValueOrDefault(type) ?? "0");
+                : (sceneSelections.GetValueOrDefault(type) ?? [""]).Length;
             while (true)
             {
                 Console.WriteLine("\n원하시는 행동을 입력해주세요.");
                 Console.Write(">> ");
                 if (int.TryParse(Console.ReadLine(), out int input))
                 {
-                    if (input < count && input > -1) return input;
-                    else
-                    {
-                        WarnBadInput();
-                    }
+                    if (input < count && input > -1) { return input; }
+                    else { WarnBadInput(); }
                 }
                 else
                 {
@@ -184,9 +182,9 @@ namespace TEXT_RPG
             }
 
             // STEP 5
-            public void ShowInventory(ShowType showType)
+            public void ShowInventory(SceneType showType)
             {
-                if (showType == ShowType.Default)
+                if (showType == SceneType.Inventory)
                 {
                     Console.WriteLine("인벤토리");
                 }
@@ -199,7 +197,7 @@ namespace TEXT_RPG
                 for (int i = 0; i < items.Count; i++)
                 {
                     Console.Write("- ");
-                    if (showType == ShowType.Management)
+                    if (showType == SceneType.InventoryManagement)
                     {
                         Console.Write($"{i + 1} ");
                     }
