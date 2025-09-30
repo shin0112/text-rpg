@@ -18,6 +18,7 @@ namespace TEXT_RPG
 
         static void Main(string[] args)
         {
+            UI.SetInitDesign();
             player = new Player("강한 전사", PlayerJob.전사);
             int select;
 
@@ -26,7 +27,7 @@ namespace TEXT_RPG
             {
                 Console.WriteLine("스파르타 마을에 오신 여러분 환영합니다.");
                 Console.WriteLine("이곳에서 던전으로 들어가기 전 활동을 할 수 있습니다.\n");
-                UI.WriteSelection(SceneType.Start, sceneSelections[SceneType.Start]);
+                UI.WriteOptions(SceneType.Start, sceneSelections[SceneType.Start]);
 
                 select = SelectAct(SceneType.Start);
                 Console.Clear();
@@ -50,7 +51,7 @@ namespace TEXT_RPG
         {
             int select;
             player.ShowStatus();
-            UI.WriteSelection(SceneType.Status, sceneSelections[SceneType.Status]);
+            UI.WriteOptions(SceneType.Status, sceneSelections[SceneType.Status]);
             select = SelectAct(SceneType.Status);
             if (select == 0)
             {
@@ -67,7 +68,7 @@ namespace TEXT_RPG
             {
                 Console.Clear();
                 player.ShowInventory(type);
-                UI.WriteSelection(type, sceneSelections[type]);
+                UI.WriteOptions(type, sceneSelections[type]);
                 select = isDefault
                     ? SelectAct(SceneType.Inventory)
                     : SelectAct(SceneType.InventoryManagement);
@@ -159,7 +160,7 @@ namespace TEXT_RPG
             // STEP 3 & 7
             public void ShowStatus()
             {
-                Console.WriteLine("상태 보기");
+                UI.WriteTitle("===상태 보기 ===");
                 Console.WriteLine("캐릭터의 정보가 표시됩니다.\n");
 
                 // [attack, defnse]
@@ -170,8 +171,6 @@ namespace TEXT_RPG
                 Console.WriteLine($"방어력 : {DefensePower} (+{def})");
                 Console.WriteLine($"체 력 : {Hp}");
                 Console.WriteLine($"Gold : {Gold} G");
-
-                Console.WriteLine();
             }
 
             // STEP 5
@@ -179,11 +178,11 @@ namespace TEXT_RPG
             {
                 if (showType == SceneType.Inventory)
                 {
-                    Console.WriteLine("인벤토리");
+                    UI.WriteTitle("=== 인벤토리 ===");
                 }
                 else
                 {
-                    Console.WriteLine("인벤토리 - 장착 관리");
+                    UI.WriteTitle("=== 인벤토리 - 장착 관리 ===");
                 }
                 Console.WriteLine("보유 중인 아이템을 관리할 수 있습니다.\n");
                 Console.WriteLine("[아이템 목록]");
@@ -255,21 +254,47 @@ namespace TEXT_RPG
     }
     static class UI
     {
-        public static void WarnBadInput()
+        public static void SetInitDesign()
         {
-            Console.WriteLine("잘못된 입력입니다.");
+            Console.ForegroundColor = ConsoleColor.Gray;
         }
 
-        public static void WriteSelection(SceneType type, string[] selections)
+        public static void WriteTitle(string text)
+        {
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.WriteLine(text);
+            SetInitDesign();
+        }
+
+        public static void WriteOption(string text)
+        {
+            Console.ForegroundColor = ConsoleColor.DarkCyan;
+            Console.WriteLine(text);
+            SetInitDesign();
+        }
+
+        public static void WriteExitOption()
+        {
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.WriteLine("\n0. 나가기");
+            SetInitDesign();
+        }
+
+        public static void WriteOptions(SceneType type, string[] selections)
         {
             for (int i = 1; i < selections.Length; i++)
             {
-                Console.WriteLine($"{i}. {selections[i]}");
+                WriteOption($"{i}. {selections[i]}");
             }
 
             if (type == SceneType.Start) { return; }
 
-            Console.WriteLine("0. 나가기");
+            WriteExitOption();
+        }
+
+        public static void WarnBadInput()
+        {
+            Console.WriteLine("잘못된 입력입니다.");
         }
     }
 }
