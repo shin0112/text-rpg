@@ -133,7 +133,7 @@
         private static void SceneStatus()
         {
             int select;
-            player.ShowStatus();
+            UI.PlayerUI.WritePlayerInfo(player);
             UI.UIHelper.WriteOptions(SceneType.Status, sceneSelections[SceneType.Status]);
             select = SelectAct(SceneType.Status);
             if (select == 0)
@@ -213,15 +213,15 @@
 
         class Player
         {
-            private int Level { get; set; }
-            private string Name { get; set; }
-            private PlayerJob Job { get; set; }
-            private int AttackPower { get; set; }
-            private int DefensePower { get; set; }
-            private int Hp { get; set; }
-            private int Stamina { get; set; }
-            private int Exp { get; set; }
-            private int Gold { get; set; }
+            public int Level { get; private set; }
+            public string Name { get; private set; }
+            public PlayerJob Job { get; private set; }
+            public int AttackPower { get; private set; }
+            public int DefensePower { get; private set; }
+            public int Hp { get; private set; }
+            public int Stamina { get; private set; }
+            public int Exp { get; private set; }
+            public int Gold { get; private set; }
 
             public List<Item> Items { get; }
 
@@ -262,24 +262,6 @@
                 Items.Add(new Item("연습용 창", ItemType.Weapon, 3, "검보다는 그래도 창이 다루기 쉽죠."));
             }
 
-            // STEP 3 & 7
-            public void ShowStatus()
-            {
-                UI.UIHelper.WriteTitle("===상태 보기 ===");
-                Console.WriteLine("캐릭터의 정보가 표시됩니다.\n");
-
-                // [attack, defnse]
-                (int atk, int def) = CalculatePlusPower();
-                Console.WriteLine($"Lv. {Level:D2}");
-                Console.WriteLine($"Chad ( {Job.ToString()} )");
-                Console.WriteLine($"공격력 : {AttackPower} (+{atk})");
-                Console.WriteLine($"방어력 : {DefensePower} (+{def})");
-                Console.WriteLine($"체 력 : {Hp}");
-                Console.WriteLine($"스테미나 : {Stamina}");
-                Console.WriteLine($"경험치 : {Exp}");
-                Console.WriteLine($"Gold : {Gold} G");
-            }
-
             public void ShowInventory(SceneType showType)
             {
                 if (showType == SceneType.Inventory)
@@ -304,7 +286,7 @@
                 Console.WriteLine();
             }
 
-            private (int attackPower, int defensePower) CalculatePlusPower()
+            public (int attackPower, int defensePower) CalculatePlusPower()
             {
                 int attackPower = 0, defensePower = 0;
                 foreach (Item item in Items)

@@ -4,6 +4,26 @@
     {
         static class UI
         {
+            public class PlayerUI
+            {
+                public static void WritePlayerInfo(Player player)
+                {
+                    UI.UIHelper.WriteTitle("===상태 보기 ===");
+                    Console.WriteLine("캐릭터의 정보가 표시됩니다.\n");
+
+                    // [attack, defnse]
+                    (int atk, int def) = player.CalculatePlusPower();
+                    Console.WriteLine($"Lv. {player.Level:D2}");
+                    Console.WriteLine($"Chad ( {player.Job.ToString()} )");
+                    Console.WriteLine($"공격력 : {player.AttackPower} (+{atk})");
+                    Console.WriteLine($"방어력 : {player.DefensePower} (+{def})");
+                    Console.WriteLine($"체 력 : {player.Hp}");
+                    Console.WriteLine($"스테미나 : {player.Stamina}");
+                    Console.WriteLine($"경험치 : {player.Exp}");
+                    Console.WriteLine($"Gold : {player.Gold} G");
+                }
+            }
+
             public class ItemUI
             {
                 public static void WriteItemInfo(Item item)
