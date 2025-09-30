@@ -12,39 +12,50 @@ namespace TEXT_RPG
             { "selectManagement", "" }
         };
 
+        enum PlayerJob { 전사, 마법사, 궁수 }
+        enum ItemType { Weapon, Armor }
+        enum ShowType { Default, Management }
+
         static void Main(string[] args)
         {
-            player = new Player("", PlayerJob.전사);
+            player = new Player("강한 전사", PlayerJob.전사);
             int select;
 
             // STEP 1
             while (true)
             {
                 Console.WriteLine("스파르타 마을에 오신 여러분 환영합니다.\n이곳에서 던전으로 들어가기 전 활동을 할 수 있습니다.\n");
-                Console.WriteLine("1. 상태 보기\n2. 인벤토리");
+                Console.WriteLine("1. 상태 보기");
+                Console.WriteLine("2. 인벤토리");
 
-                switch (SelectAct("start"))
+                select = SelectAct("start");
+                Console.Clear();
+
+                switch (select)
                 {
                     case 1:
-                        Console.Clear();
-                        player.ShowStatus();
-                        Console.WriteLine("0. 나가기");
-                        select = SelectAct("status");
-                        if (select == 0)
-                        {
-                            Console.Clear();
-                            continue;
-                        }
+                        SceneStatus();
                         break;
                     case 2:
-                        Console.Clear();
                         SceneInventory(ShowType.Default);
                         break;
                     default:
-                        Console.Clear();
-                        Console.WriteLine("잘못된 입력입니다.\n");
+                        WarnBadInput();
                         continue;
                 }
+            }
+        }
+
+        private static void SceneStatus()
+        {
+            int select;
+            player.ShowStatus();
+            Console.WriteLine("0. 나가기");
+            select = SelectAct("status");
+            if (select == 0)
+            {
+                Console.Clear();
+                return;
             }
         }
 
@@ -93,10 +104,6 @@ namespace TEXT_RPG
                         player.items[select - 1].ChangeItemEquipped();
                         continue;
                     }
-                    else
-                    {
-
-                    }
                 }
             }
         }
@@ -115,19 +122,20 @@ namespace TEXT_RPG
                     if (input < count && input > -1) return input;
                     else
                     {
-                        Console.WriteLine("잘못된 입력입니다.");
+                        WarnBadInput();
                     }
                 }
                 else
                 {
-                    Console.WriteLine("잘못된 입력입니다.");
+                    WarnBadInput();
                 }
             }
         }
 
-        enum PlayerJob { 전사, 마법사, 궁수 }
-        enum ItemType { Weapon, Armor }
-        enum ShowType { Default, Management }
+        private static void WarnBadInput()
+        {
+            Console.WriteLine("잘못된 입력입니다.");
+        }
 
         class Player
         {
