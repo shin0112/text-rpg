@@ -9,7 +9,7 @@
         private static Player player;
         public static Dictionary<SceneType, string[]> sceneSelections = new Dictionary<SceneType, string[]>()
         {
-            { SceneType.Start, ["", "상태 보기", "인벤토리", "랜덤 모험", "마을 순찰하기"] },
+            { SceneType.Start, ["", "상태 보기", "인벤토리", "랜덤 모험", "마을 순찰하기", "훈련하기"] },
             { SceneType.Status, ["나가기"] },
             { SceneType.Inventory, ["나가기", "장착 관리"] },
             { SceneType.InventoryManagement, ["나가기"] }
@@ -40,10 +40,13 @@
                         SceneInventory(SceneType.Inventory);
                         break;
                     case 3:
-                        SelectRandomAdventure(player);
+                        SelectRandomAdventure();
                         break;
                     case 4:
-                        SelectPatrolTown(player);
+                        SelectPatrolTown();
+                        break;
+                    case 5:
+                        SelectTraining();
                         break;
                     default:
                         UI.WarnBadInput();
@@ -52,39 +55,62 @@
             }
         }
 
-        private static void SelectPatrolTown(Player player)
+        private static void SelectTraining()
         {
-            int encounterProb = new Random().Next(10);
+            int encounterProb = new Random().Next(100);
+            if (player.SpendStamina(15))
+            {
+                if (encounterProb < 15)
+                {
+                    Console.WriteLine("훈련이 잘 되었습니다!");
+                    player.UpdateExp(60);
+                }
+                else if (encounterProb < 60)
+                {
+                    Console.WriteLine("오늘하루 열심히 훈련했습니다.");
+                    player.UpdateExp(40);
+                }
+                else
+                {
+                    Console.WriteLine("하기 싫다... 훈련이...");
+                    player.UpdateExp(30);
+                }
+            }
+        }
+
+        private static void SelectPatrolTown()
+        {
+            int encounterProb = new Random().Next(100);
             if (player.SpendStamina(5))
             {
-                if (encounterProb < 1) // 0
+                if (encounterProb < 10)
                 {
                     Console.WriteLine("마을 아이들이 모여있다. 간식을 사줘볼까?");
                     player.UpdateGold(-500);
                 }
-                else if (encounterProb < 2) // 1
+                else if (encounterProb < 20)
                 {
                     Console.WriteLine("촌장님을 만나서 심부름을 했다.");
                     player.UpdateGold(2000);
                 }
-                else if (encounterProb < 4) // 2, 3
+                else if (encounterProb < 40)
                 {
                     Console.WriteLine("길 읽은 사람을 안내해주었다.");
                     player.UpdateGold(1000);
                 }
-                else if (encounterProb < 7) // 4, 5, 6
+                else if (encounterProb < 70)
                 {
                     Console.WriteLine("마을 주민과 인사를 나눴다. 선물을 받았다.");
                     player.UpdateGold(500);
                 }
-                else // 7, 8, 9
+                else
                 {
                     Console.WriteLine("아무 일도 일어나지 않았다");
                 }
             }
         }
 
-        private static void SelectRandomAdventure(Player player)
+        private static void SelectRandomAdventure()
         {
             int encounterProb = new Random().Next(2);
             if (player.SpendStamina(10))
@@ -214,6 +240,7 @@
             }
 
             public void UpdateGold(int gold) => Gold += gold;
+            public void UpdateExp(int exp) => Exp += exp;
 
             // STEP 2
             public Player(string name, PlayerJob job)
