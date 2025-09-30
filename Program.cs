@@ -23,13 +23,13 @@ namespace TEXT_RPG
                 Console.WriteLine("스파르타 마을에 오신 여러분 환영합니다.\n이곳에서 던전으로 들어가기 전 활동을 할 수 있습니다.\n");
                 Console.WriteLine("1. 상태 보기\n2. 인벤토리");
 
-                switch (selectAct("start"))
+                switch (SelectAct("start"))
                 {
                     case 1:
                         Console.Clear();
                         player.ShowStatus();
                         Console.WriteLine("0. 나가기");
-                        select = selectAct("status");
+                        select = SelectAct("status");
                         if (select == 0)
                         {
                             Console.Clear();
@@ -62,8 +62,8 @@ namespace TEXT_RPG
                 }
                 Console.WriteLine("0. 나가기");
                 select = isDefault
-                    ? selectAct("inventory")
-                    : selectAct("selectManagement");
+                    ? SelectAct("inventory")
+                    : SelectAct("selectManagement");
 
                 if (isDefault)
                 {
@@ -101,10 +101,10 @@ namespace TEXT_RPG
             }
         }
 
-        private static int selectAct(string type)
+        private static int SelectAct(string type)
         {
             int count = (type == "selectManagement")
-                ? player.items.Count
+                ? player.items.Count + 1
                 : int.Parse(selectCount.GetValueOrDefault(type) ?? "0");
             while (true)
             {
