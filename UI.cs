@@ -36,7 +36,7 @@
                     // [attack, defnse]
                     (int atk, int def) = player.CalculatePlusPower();
                     Console.WriteLine($"Lv. {player.Level:D2}");
-                    Console.WriteLine($"Chad ( {player.Job.ToString()} )");
+                    Console.WriteLine($"Chad ( {player.Job} )");
                     Console.WriteLine($"공격력 : {player.AttackPower} (+{atk})");
                     Console.WriteLine($"방어력 : {player.DefensePower} (+{def})");
                     Console.WriteLine($"체 력 : {player.Hp}");
