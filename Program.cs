@@ -136,7 +136,10 @@ namespace TEXT_RPG
             private int AttackPower { get; set; }
             private int DefensePower { get; set; }
             private int Hp { get; set; }
+            private int Stamina { get; set; }
+            private int Exp { get; set; }
             private int Gold { get; set; }
+
             public List<Item> Items { get; }
 
             // STEP 2
@@ -148,6 +151,8 @@ namespace TEXT_RPG
                 AttackPower = 10;
                 DefensePower = 5;
                 Hp = 100;
+                Stamina = 20;
+                Exp = 0;
                 Gold = 1500;
 
                 // STEP 5
@@ -170,6 +175,8 @@ namespace TEXT_RPG
                 Console.WriteLine($"공격력 : {AttackPower} (+{atk})");
                 Console.WriteLine($"방어력 : {DefensePower} (+{def})");
                 Console.WriteLine($"체 력 : {Hp}");
+                Console.WriteLine($"스테미나 : {Stamina}");
+                Console.WriteLine($"경험치 : {Exp}");
                 Console.WriteLine($"Gold : {Gold} G");
             }
 
