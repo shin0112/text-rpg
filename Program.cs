@@ -2,7 +2,7 @@
 {
     enum PlayerJob { 전사, 마법사, 궁수 }
     enum ItemType { Weapon, Armor }
-    enum SceneType { Start, Status, Inventory, InventoryManagement }
+    enum SceneType { Start, Status, Inventory, InventoryManagement, InventorySort }
 
     internal partial class Program
     {
@@ -11,8 +11,9 @@
         {
             { SceneType.Start, ["", "상태 보기", "인벤토리", "랜덤 모험", "마을 순찰하기", "훈련하기"] },
             { SceneType.Status, ["나가기"] },
-            { SceneType.Inventory, ["나가기", "장착 관리"] },
-            { SceneType.InventoryManagement, ["나가기"] }
+            { SceneType.Inventory, ["나가기", "장착 관리", "아이템 정렬"] },
+            { SceneType.InventoryManagement, ["나가기"] },
+            { SceneType.InventorySort, ["나가기", "이름", "장착순", "공격력", "방어력"] }
         };
 
         static void Main(string[] args)
@@ -147,46 +148,77 @@
         {
             int select;
             SceneType type = SceneType.Inventory;
-            bool isDefault = true;
+            bool isExit = false;
+
             while (true)
             {
                 Console.Clear();
                 UI.PlayerUI.ShowInventory(type, player.Items);
                 UI.UIHelper.WriteOptions(type, sceneSelections[type]);
-                select = isDefault
-                    ? SelectAct(SceneType.Inventory)
-                    : SelectAct(SceneType.InventoryManagement);
+                select = SelectAct(type);
 
-                if (isDefault)
+                switch (type)
                 {
-                    if (select == 0)
-                    {
-                        Console.Clear();
-                        return;
-                    }
-                    else if (select == 1)
-                    {
-                        isDefault = false;
-                        type = SceneType.InventoryManagement;
-                        continue;
-                    }
+                    case SceneType.Inventory:
+                        isExit = InventoryDefault(select, ref type);
+                        break;
+                    case SceneType.InventoryManagement:
+                        InventoryManagement(select, ref type);
+                        break;
+                    case SceneType.InventorySort:
+                        InventorySort(select, ref type);
+                        break;
+                    default:
+                        break;
                 }
-                else
-                {
-                    if (select == 0)
-                    {
-                        Console.Clear();
-                        isDefault = true;
-                        type = SceneType.Inventory;
-                        continue;
-                    }
-                    else if (0 < select && select <= player.Items.Count)
-                    {
-                        player.ToggleEquip(select - 1);
-                        continue;
-                    }
-                }
+
+                if (isExit) break;
             }
+        }
+
+        private static void InventorySort(int select, ref SceneType type)
+        {
+            if (select == 0)
+            {
+                Console.Clear();
+                type = SceneType.Inventory;
+            }
+            else
+            {
+                player.SortItems((byte)select);
+            }
+        }
+
+        private static void InventoryManagement(int select, ref SceneType type)
+        {
+            if (select == 0)
+            {
+                Console.Clear();
+                type = SceneType.Inventory;
+            }
+            else if (0 < select && select <= player.Items.Count)
+            {
+                player.ToggleEquip(select - 1);
+            }
+        }
+
+        private static bool InventoryDefault(int select, ref SceneType type)
+        {
+            switch (select)
+            {
+                case 0: // start
+                    Console.Clear();
+                    return true;
+                case 1: // 장착 관리
+                    type = SceneType.InventoryManagement;
+                    break;
+                case 2: // 아이템 정렬
+                    type = SceneType.InventorySort;
+                    break;
+                default:
+                    break;
+            }
+            return false;
         }
 
         private static int SelectAct(SceneType type)
@@ -243,9 +275,23 @@
             public void UpdateGold(int gold) => Gold += gold;
             public void UpdateExp(int exp) => Exp += exp;
 
-            public void SortItems()
+            public void SortItems(byte num)
             {
-                Items.Sort((item, another) => item.Name.Length.CompareTo(another.Name.Length));
+                switch (num)
+                {
+                    case 1: // 이름
+                        Items.Sort((item, another) => item.Name.Length.CompareTo(another.Name.Length));
+                        break;
+                    case 2: // 장착순
+                        Items.Sort((item, another) => item.IsEquipped.CompareTo(another.IsEquipped));
+                        break;
+                    case 3: // 공격력
+                        break;
+                    case 4: // 방어력
+                        break;
+                    default:
+                        break;
+                }
             }
 
             // STEP 2
