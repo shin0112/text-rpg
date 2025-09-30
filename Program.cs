@@ -4,7 +4,7 @@
     enum ItemType { Weapon, Armor }
     enum SceneType { Start, Status, Inventory, InventoryManagement }
 
-    internal class Program
+    internal partial class Program
     {
         private static Player player;
         public static Dictionary<SceneType, string[]> sceneSelections = new Dictionary<SceneType, string[]>()
@@ -17,7 +17,7 @@
 
         static void Main(string[] args)
         {
-            UI.SetInitDesign();
+            UI.UIHelper.SetInitDesign();
             player = new Player("강한 전사", PlayerJob.전사);
             int select;
 
@@ -26,7 +26,7 @@
             {
                 Console.WriteLine("스파르타 마을에 오신 여러분 환영합니다.");
                 Console.WriteLine("이곳에서 던전으로 들어가기 전 활동을 할 수 있습니다.\n");
-                UI.WriteOptions(SceneType.Start, sceneSelections[SceneType.Start]);
+                UI.UIHelper.WriteOptions(SceneType.Start, sceneSelections[SceneType.Start]);
 
                 select = SelectAct(SceneType.Start);
                 Console.Clear();
@@ -49,7 +49,7 @@
                         SelectTraining();
                         break;
                     default:
-                        UI.WarnBadInput();
+                        UI.UIHelper.WarnBadInput();
                         break;
                 }
             }
@@ -134,7 +134,7 @@
         {
             int select;
             player.ShowStatus();
-            UI.WriteOptions(SceneType.Status, sceneSelections[SceneType.Status]);
+            UI.UIHelper.WriteOptions(SceneType.Status, sceneSelections[SceneType.Status]);
             select = SelectAct(SceneType.Status);
             if (select == 0)
             {
@@ -151,7 +151,7 @@
             {
                 Console.Clear();
                 player.ShowInventory(type);
-                UI.WriteOptions(type, sceneSelections[type]);
+                UI.UIHelper.WriteOptions(type, sceneSelections[type]);
                 select = isDefault
                     ? SelectAct(SceneType.Inventory)
                     : SelectAct(SceneType.InventoryManagement);
@@ -201,11 +201,11 @@
                 if (int.TryParse(Console.ReadLine(), out int input))
                 {
                     if (input < count && input > -1) { return input; }
-                    else { UI.WarnBadInput(); }
+                    else { UI.UIHelper.WarnBadInput(); }
                 }
                 else
                 {
-                    UI.WarnBadInput();
+                    UI.UIHelper.WarnBadInput();
                 }
             }
         }
@@ -265,7 +265,7 @@
             // STEP 3 & 7
             public void ShowStatus()
             {
-                UI.WriteTitle("===상태 보기 ===");
+                UI.UIHelper.WriteTitle("===상태 보기 ===");
                 Console.WriteLine("캐릭터의 정보가 표시됩니다.\n");
 
                 // [attack, defnse]
@@ -280,16 +280,15 @@
                 Console.WriteLine($"Gold : {Gold} G");
             }
 
-            // STEP 5
             public void ShowInventory(SceneType showType)
             {
                 if (showType == SceneType.Inventory)
                 {
-                    UI.WriteTitle("=== 인벤토리 ===");
+                    UI.UIHelper.WriteTitle("=== 인벤토리 ===");
                 }
                 else
                 {
-                    UI.WriteTitle("=== 인벤토리 - 장착 관리 ===");
+                    UI.UIHelper.WriteTitle("=== 인벤토리 - 장착 관리 ===");
                 }
                 Console.WriteLine("보유 중인 아이템을 관리할 수 있습니다.\n");
                 Console.WriteLine("[아이템 목록]");
@@ -300,7 +299,7 @@
                     {
                         Console.Write($"{i + 1} ");
                     }
-                    Items[i].ShowItemInfo();
+                    UI.ItemUI.WriteItemInfo(Items[i]);
                 }
                 Console.WriteLine();
             }
@@ -319,12 +318,12 @@
             }
         }
 
-        class Item
+        public class Item
         {
-            private string Name { get; set; }
+            public string Name { get; private set; }
             public ItemType Type { get; private set; }
             public int Value { get; private set; }
-            private string Description { get; set; }
+            public string Description { get; private set; }
             public bool IsEquipped { get; private set; }
 
             public Item(string name, ItemType type, int value, string description)
@@ -336,89 +335,10 @@
                 IsEquipped = false;
             }
 
-            public void ShowItemInfo()
-            {
-                Console.Write($"{(IsEquipped ? "[E]" : "") + Name,-12} | ");
-                switch (Type)
-                {
-                    case ItemType.Weapon:
-                        Console.Write("공격력 +");
-                        break;
-                    case ItemType.Armor:
-                        Console.Write("방어력 +");
-                        break;
-                    default:
-                        break;
-                }
-                Console.WriteLine($"{Value} | {Description}");
-            }
-
             public void ToggleEquip()
             {
                 IsEquipped = !IsEquipped;
             }
-        }
-    }
-    static class UI
-    {
-        public static void SetInitDesign()
-        {
-            Console.ForegroundColor = ConsoleColor.Gray;
-        }
-
-        public static void WriteTitle(string text)
-        {
-            Console.ForegroundColor = ConsoleColor.DarkYellow;
-            Console.WriteLine(text);
-            SetInitDesign();
-        }
-
-        public static void WriteOption(string text)
-        {
-            Console.ForegroundColor = ConsoleColor.DarkCyan;
-            Console.WriteLine(text);
-            SetInitDesign();
-        }
-
-        public static void WriteExitOption()
-        {
-            Console.ForegroundColor = ConsoleColor.DarkGray;
-            Console.WriteLine("\n0. 나가기");
-            SetInitDesign();
-        }
-
-        public static void WriteOptions(SceneType type, string[] selections)
-        {
-            for (int i = 1; i < selections.Length; i++)
-            {
-                WriteOption($"{i}. {selections[i]}");
-            }
-
-            if (type == SceneType.Start) { return; }
-
-            WriteExitOption();
-        }
-
-        public static void WarnBadInput()
-        {
-            Console.WriteLine("잘못된 입력입니다.");
-        }
-
-        public static void WritePadded(string text, int totalWidth)
-        {
-            int displaywidth = GetDisplayWidth(text);
-            int padding = Math.Max(0, totalWidth - displaywidth);
-            Console.WriteLine(text + new string(' ', padding));
-        }
-
-        private static int GetDisplayWidth(string text)
-        {
-            int width = 0;
-            foreach (char c in text)
-            {
-                width += (c >= 0xAC00 && c <= 0xD7A3) ? 2 : 1; // 한글 탐지
-            }
-            return width;
         }
     }
 }
