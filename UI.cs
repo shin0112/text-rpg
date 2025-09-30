@@ -22,6 +22,30 @@
                     Console.WriteLine($"경험치 : {player.Exp}");
                     Console.WriteLine($"Gold : {player.Gold} G");
                 }
+
+                public static void ShowInventory(SceneType showType, List<Item> items)
+                {
+                    if (showType == SceneType.Inventory)
+                    {
+                        UI.UIHelper.WriteTitle("=== 인벤토리 ===");
+                    }
+                    else
+                    {
+                        UI.UIHelper.WriteTitle("=== 인벤토리 - 장착 관리 ===");
+                    }
+                    Console.WriteLine("보유 중인 아이템을 관리할 수 있습니다.\n");
+                    Console.WriteLine("[아이템 목록]");
+                    for (int i = 0; i < items.Count; i++)
+                    {
+                        Console.Write("- ");
+                        if (showType == SceneType.InventoryManagement)
+                        {
+                            Console.Write($"{i + 1} ");
+                        }
+                        UI.ItemUI.WriteItemInfo(items[i]);
+                    }
+                    Console.WriteLine();
+                }
             }
 
             public class ItemUI

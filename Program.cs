@@ -150,7 +150,7 @@
             while (true)
             {
                 Console.Clear();
-                player.ShowInventory(type);
+                UI.PlayerUI.ShowInventory(type, player.Items);
                 UI.UIHelper.ShowOptions(type, sceneSelections[type]);
                 select = isDefault
                     ? SelectAct(SceneType.Inventory)
@@ -260,30 +260,6 @@
                 Items.Add(new Item("무쇠갑옷", ItemType.Armor, 5, "무쇠로 만들어져 튼튼한 갑옷입니다."));
                 Items.Add(new Item("낡은 검", ItemType.Weapon, 2, "쉽게 볼 수 있는 낡은 검 입니다."));
                 Items.Add(new Item("연습용 창", ItemType.Weapon, 3, "검보다는 그래도 창이 다루기 쉽죠."));
-            }
-
-            public void ShowInventory(SceneType showType)
-            {
-                if (showType == SceneType.Inventory)
-                {
-                    UI.UIHelper.WriteTitle("=== 인벤토리 ===");
-                }
-                else
-                {
-                    UI.UIHelper.WriteTitle("=== 인벤토리 - 장착 관리 ===");
-                }
-                Console.WriteLine("보유 중인 아이템을 관리할 수 있습니다.\n");
-                Console.WriteLine("[아이템 목록]");
-                for (int i = 0; i < Items.Count; i++)
-                {
-                    Console.Write("- ");
-                    if (showType == SceneType.InventoryManagement)
-                    {
-                        Console.Write($"{i + 1} ");
-                    }
-                    UI.ItemUI.WriteItemInfo(Items[i]);
-                }
-                Console.WriteLine();
             }
 
             public (int attackPower, int defensePower) CalculatePlusPower()
