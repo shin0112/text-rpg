@@ -42,7 +42,7 @@
                         {
                             Console.Write($"{i + 1} ");
                         }
-                        UI.ItemUI.WriteItemInfo(items[i]);
+                        UI.ItemUI.ShowItemInfo(items[i]);
                     }
                     Console.WriteLine();
                 }
@@ -50,7 +50,7 @@
 
             public class ItemUI
             {
-                public static void WriteItemInfo(Item item)
+                public static void ShowItemInfo(Item item)
                 {
                     string prefix = item.IsEquipped ? "[E]" : "";
                     string displayName = prefix + item.Name;
@@ -99,7 +99,7 @@
                     SetInitDesign();
                 }
 
-                public static void ShowOptions(SceneType type, string[] selections)
+                public static void WriteOptions(SceneType type, string[] selections)
                 {
                     for (int i = 1; i < selections.Length; i++)
                     {

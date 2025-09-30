@@ -26,7 +26,7 @@
             {
                 Console.WriteLine("스파르타 마을에 오신 여러분 환영합니다.");
                 Console.WriteLine("이곳에서 던전으로 들어가기 전 활동을 할 수 있습니다.\n");
-                UI.UIHelper.ShowOptions(SceneType.Start, sceneSelections[SceneType.Start]);
+                UI.UIHelper.WriteOptions(SceneType.Start, sceneSelections[SceneType.Start]);
 
                 select = SelectAct(SceneType.Start);
                 Console.Clear();
@@ -134,7 +134,7 @@
         {
             int select;
             UI.PlayerUI.ShowPlayerInfo(player);
-            UI.UIHelper.ShowOptions(SceneType.Status, sceneSelections[SceneType.Status]);
+            UI.UIHelper.WriteOptions(SceneType.Status, sceneSelections[SceneType.Status]);
             select = SelectAct(SceneType.Status);
             if (select == 0)
             {
@@ -151,7 +151,7 @@
             {
                 Console.Clear();
                 UI.PlayerUI.ShowInventory(type, player.Items);
-                UI.UIHelper.ShowOptions(type, sceneSelections[type]);
+                UI.UIHelper.WriteOptions(type, sceneSelections[type]);
                 select = isDefault
                     ? SelectAct(SceneType.Inventory)
                     : SelectAct(SceneType.InventoryManagement);
