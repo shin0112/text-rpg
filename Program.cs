@@ -198,7 +198,7 @@
             }
             else if (0 < select && select <= player.Items.Count)
             {
-                player.ToggleEquip(select - 1);
+                player.ToggleEquip(player.Items[select - 1]);
             }
         }
 
@@ -255,7 +255,7 @@
             public int Stamina { get; private set; }
             public int Exp { get; private set; }
             public int Gold { get; private set; }
-            private Dictionary<ItemType, int> equipped = new Dictionary<ItemType, int>();
+            private Dictionary<ItemType, Item?> equipped = new Dictionary<ItemType, Item?>();
             public List<Item> Items { get; }
 
             public bool SpendStamina(int stamina)
@@ -283,7 +283,7 @@
                         Items.Sort((item, another) => item.Name.Length.CompareTo(another.Name.Length));
                         break;
                     case 2: // 장착순
-                        Items.Sort((item, another) => item.IsEquipped.CompareTo(another.IsEquipped));
+                        Items.Sort((item, another) => another.IsEquipped.CompareTo(item.IsEquipped));
                         break;
                     case 3: // 공격력
                         break;
@@ -308,7 +308,7 @@
                 Gold = 1500;
                 foreach (ItemType type in Enum.GetValues(typeof(ItemType)))
                 {
-                    equipped[type] = -1;
+                    equipped[type] = null;
                 }
 
                 // STEP 5
@@ -331,24 +331,27 @@
                 return (attackPower, defensePower);
             }
 
-            public void ToggleEquip(int idx)
+            public void ToggleEquip(Item item)
             {
-                ItemType type = Items[idx].Type;
-                int prevIdx = equipped[type];
+                ItemType type = item.Type;
 
-                if (idx == prevIdx)
+                // 착용 중인 장비 해제 
+                if (equipped[type] == item)
                 {
-                    Items[prevIdx].ToggleEquip();
-                    equipped[type] = -1;
+                    item.ToggleEquip();
+                    equipped[type] = null;
                     return;
                 }
-                else if (prevIdx >= 0)
+
+                // 다른 장비 해제
+                if (equipped[type] != null)
                 {
-                    Items[prevIdx].ToggleEquip();
+                    equipped[type]!.ToggleEquip();
                 }
 
-                equipped[type] = idx;
-                Items[idx].ToggleEquip();
+                // 새 장비 장착
+                equipped[type] = item;
+                item.ToggleEquip();
             }
         }
 
