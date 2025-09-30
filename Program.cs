@@ -282,6 +282,12 @@
             public void ToggleEquip(int idx)
             {
                 int prevIdx = equipped[Items[idx].Type];
+                if (idx == prevIdx)
+                {
+                    Items[prevIdx].ToggleEquip();
+                    return;
+                }
+
                 if (prevIdx >= 0)
                 {
                     Items[prevIdx].ToggleEquip();
