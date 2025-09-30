@@ -6,7 +6,7 @@ namespace TEXT_RPG
         private static Player player;
         private static Dictionary<SceneType, string[]> sceneSelections = new Dictionary<SceneType, string[]>()
         {
-            { SceneType.Start, ["상태 보기", "인벤토리"] },
+            { SceneType.Start, ["", "상태 보기", "인벤토리"] },
             { SceneType.Status, ["나가기"] },
             { SceneType.Inventory, ["나가기", "장착 관리"] },
             { SceneType.InventoryManagement, ["나가기"] }
@@ -25,8 +25,7 @@ namespace TEXT_RPG
             while (true)
             {
                 Console.WriteLine("스파르타 마을에 오신 여러분 환영합니다.\n이곳에서 던전으로 들어가기 전 활동을 할 수 있습니다.\n");
-                Console.WriteLine("1. 상태 보기");
-                Console.WriteLine("2. 인벤토리");
+                WriteSelection(SceneType.Start);
 
                 select = SelectAct(SceneType.Start);
                 Console.Clear();
@@ -50,7 +49,7 @@ namespace TEXT_RPG
         {
             int select;
             player.ShowStatus();
-            Console.WriteLine("0. 나가기");
+            WriteSelection(SceneType.Status);
             select = SelectAct(SceneType.Status);
             if (select == 0)
             {
@@ -67,11 +66,7 @@ namespace TEXT_RPG
             {
                 Console.Clear();
                 player.ShowInventory(type);
-                if (isDefault)
-                {
-                    Console.WriteLine("1. 장착 관리");
-                }
-                Console.WriteLine("0. 나가기");
+                WriteSelection(type);
                 select = isDefault
                     ? SelectAct(SceneType.Inventory)
                     : SelectAct(SceneType.InventoryManagement);
@@ -108,12 +103,25 @@ namespace TEXT_RPG
             }
         }
 
+        private static void WriteSelection(SceneType type)
+        {
+            string[] selections = sceneSelections[type];
+            for (int i = 1; i < selections.Length; i++)
+            {
+                Console.WriteLine($"{i}. {selections[i]}");
+            }
+
+            if (type == SceneType.Start) { return; }
+
+            Console.WriteLine("0. 나가기");
+        }
 
         private static int SelectAct(SceneType type)
         {
             int count = (type == SceneType.InventoryManagement)
                 ? player.items.Count + 1
-                : (sceneSelections.GetValueOrDefault(type) ?? [""]).Length;
+                : sceneSelections[type].Length;
+
             while (true)
             {
                 Console.WriteLine("\n원하시는 행동을 입력해주세요.");
