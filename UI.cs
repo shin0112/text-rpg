@@ -6,7 +6,7 @@
         {
             public class PlayerUI
             {
-                public static void WritePlayerInfo(Player player)
+                public static void ShowPlayerInfo(Player player)
                 {
                     UI.UIHelper.WriteTitle("===상태 보기 ===");
                     Console.WriteLine("캐릭터의 정보가 표시됩니다.\n");
@@ -75,7 +75,7 @@
                     SetInitDesign();
                 }
 
-                public static void WriteOptions(SceneType type, string[] selections)
+                public static void ShowOptions(SceneType type, string[] selections)
                 {
                     for (int i = 1; i < selections.Length; i++)
                     {
