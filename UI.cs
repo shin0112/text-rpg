@@ -4,11 +4,26 @@
     {
         static class UI
         {
+            public class ShopUI
+            {
+                public static void ShowShop(Player player)
+                {
+                    UI.UIHelper.WriteTitle("상점");
+                    Console.WriteLine("필요한 아이템을 필요한 아이템을 얻을 수 있는 상점입니다.\n");
+
+                    Console.WriteLine("[보유 골드]");
+                    Console.WriteLine($"{player.Gold} G\n");
+
+                    Console.WriteLine("[아이템 목록]");
+                    // 아이템 목록
+                }
+            }
+
             public class PlayerUI
             {
                 public static void ShowPlayerInfo(Player player)
                 {
-                    UI.UIHelper.WriteTitle("===상태 보기 ===");
+                    UI.UIHelper.WriteTitle("상태 보기");
                     Console.WriteLine("캐릭터의 정보가 표시됩니다.\n");
 
                     // [attack, defnse]
@@ -27,11 +42,11 @@
                 {
                     if (showType == SceneType.Inventory)
                     {
-                        UI.UIHelper.WriteTitle("=== 인벤토리 ===");
+                        UI.UIHelper.WriteTitle("인벤토리");
                     }
                     else
                     {
-                        UI.UIHelper.WriteTitle("=== 인벤토리 - 장착 관리 ===");
+                        UI.UIHelper.WriteTitle("인벤토리 - 장착 관리");
                     }
                     Console.WriteLine("보유 중인 아이템을 관리할 수 있습니다.\n");
                     Console.WriteLine("[아이템 목록]");
@@ -81,7 +96,7 @@
                 public static void WriteTitle(string text)
                 {
                     Console.ForegroundColor = ConsoleColor.DarkYellow;
-                    Console.WriteLine(text);
+                    Console.WriteLine($"=== {text} ===");
                     SetInitDesign();
                 }
 

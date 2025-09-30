@@ -2,18 +2,19 @@
 {
     enum PlayerJob { 전사, 마법사, 궁수 }
     enum ItemType { Weapon, Armor }
-    enum SceneType { Start, Status, Inventory, InventoryManagement, InventorySort }
+    enum SceneType { Start, Status, Inventory, InventoryManagement, InventorySort, Shop }
 
     internal partial class Program
     {
         private static Player player;
         public static Dictionary<SceneType, string[]> sceneSelections = new Dictionary<SceneType, string[]>()
         {
-            { SceneType.Start, ["", "상태 보기", "인벤토리", "랜덤 모험", "마을 순찰하기", "훈련하기"] },
+            { SceneType.Start, ["", "상태 보기", "인벤토리", "랜덤 모험", "마을 순찰하기", "훈련하기", "상점"] },
             { SceneType.Status, ["나가기"] },
             { SceneType.Inventory, ["나가기", "장착 관리", "아이템 정렬"] },
             { SceneType.InventoryManagement, ["나가기"] },
-            { SceneType.InventorySort, ["나가기", "이름", "장착순", "공격력", "방어력"] }
+            { SceneType.InventorySort, ["나가기", "이름", "장착순", "공격력", "방어력"] },
+            { SceneType.Shop, ["나가기", "아이템 구매"] }
         };
 
         static void Main(string[] args)
@@ -48,6 +49,9 @@
                         break;
                     case 5:
                         SelectTraining();
+                        break;
+                    case 6:
+                        SceneShop();
                         break;
                     default:
                         UI.UIHelper.WarnBadInput();
@@ -173,6 +177,25 @@
                 }
 
                 if (isExit) break;
+            }
+        }
+
+        private static void SceneShop()
+        {
+            UI.ShopUI.ShowShop(player);
+            UI.UIHelper.WriteOptions(SceneType.Shop, sceneSelections[SceneType.Shop]);
+            int select = SelectAct(SceneType.Shop);
+
+            switch (select)
+            {
+                case 0:
+                    Console.Clear();
+                    return;
+                case 1:
+                    // 아이템 구매
+                    break;
+                default:
+                    break;
             }
         }
 
