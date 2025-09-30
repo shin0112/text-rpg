@@ -1,4 +1,5 @@
-﻿namespace TEXT_RPG
+﻿
+namespace TEXT_RPG
 {
     internal class Program
     {
@@ -8,12 +9,13 @@
             { "start", "3" },
             { "status", "1" },
             { "inventory", "2" },
-            { "manage", "2" }
+            { "selectManagement", "" }
         };
 
         static void Main(string[] args)
         {
             player = new Player("", PlayerJob.전사);
+            int select;
 
             // STEP 1
             while (true)
@@ -27,7 +29,8 @@
                         Console.Clear();
                         player.ShowStatus();
                         Console.WriteLine("0. 나가기");
-                        if (selectAct("status") == 0)
+                        select = selectAct("status");
+                        if (select == 0)
                         {
                             Console.Clear();
                             continue;
@@ -35,29 +38,74 @@
                         break;
                     case 2:
                         Console.Clear();
-                        player.ShowInventory(ShowType.Default);
-                        Console.WriteLine("1. 장착 관리");
-                        Console.WriteLine("0. 나가기");
-                        if (selectAct("inventory") == 0)
-                        {
-                            Console.Clear();
-                            continue;
-                        }
-                        else if (selectAct("manage") == 1)
-                        {
-
-                        }
+                        SceneInventory(ShowType.Default);
                         break;
                     default:
+                        Console.Clear();
                         Console.WriteLine("잘못된 입력입니다.\n");
                         continue;
                 }
             }
         }
 
+        private static void SceneInventory(ShowType type)
+        {
+            int select;
+            bool isDefault = ShowType.Default == type;
+            while (true)
+            {
+                Console.Clear();
+                player.ShowInventory(type);
+                if (isDefault)
+                {
+                    Console.WriteLine("1. 장착 관리");
+                }
+                Console.WriteLine("0. 나가기");
+                select = isDefault
+                    ? selectAct("inventory")
+                    : selectAct("selectManagement");
+
+                if (isDefault)
+                {
+                    if (select == 0)
+                    {
+                        Console.Clear();
+                        return;
+                    }
+                    else if (select == 1)
+                    {
+                        isDefault = false;
+                        type = ShowType.Management;
+                        continue;
+                    }
+                }
+                else
+                {
+                    if (select == 0)
+                    {
+                        Console.Clear();
+                        isDefault = true;
+                        type = ShowType.Default;
+                        continue;
+                    }
+                    else if (0 < select && select <= player.items.Count)
+                    {
+                        player.items[select - 1].ChangeItemEquipped();
+                        continue;
+                    }
+                    else
+                    {
+
+                    }
+                }
+            }
+        }
+
         private static int selectAct(string type)
         {
-            int count = int.Parse(selectCount.GetValueOrDefault(type) ?? "0");
+            int count = (type == "selectManagement")
+                ? player.items.Count
+                : int.Parse(selectCount.GetValueOrDefault(type) ?? "0");
             while (true)
             {
                 Console.WriteLine("\n원하시는 행동을 입력해주세요.");
@@ -69,6 +117,10 @@
                     {
                         Console.WriteLine("잘못된 입력입니다.");
                     }
+                }
+                else
+                {
+                    Console.WriteLine("잘못된 입력입니다.");
                 }
             }
         }
@@ -124,17 +176,24 @@
             // STEP 5
             public void ShowInventory(ShowType showType)
             {
-                Console.WriteLine("인벤토리");
+                if (showType == ShowType.Default)
+                {
+                    Console.WriteLine("인벤토리");
+                }
+                else
+                {
+                    Console.WriteLine("인벤토리 - 장착 관리");
+                }
                 Console.WriteLine("보유 중인 아이템을 관리할 수 있습니다.\n");
                 Console.WriteLine("[아이템 목록]");
                 for (int i = 0; i < items.Count; i++)
                 {
-                    if (items[i].IsEquipped == true)
-                    {
-                        Console.Write("[E] ");
-                    }
                     Console.Write("- ");
-                    items[i].showItemInfo();
+                    if (showType == ShowType.Management)
+                    {
+                        Console.Write($"{i + 1} ");
+                    }
+                    items[i].ShowItemInfo();
                 }
                 Console.WriteLine();
             }
@@ -157,9 +216,9 @@
                 IsEquipped = false;
             }
 
-            public void showItemInfo()
+            public void ShowItemInfo()
             {
-                Console.Write($"{Name,-12} | ");
+                Console.Write($"{(IsEquipped ? "[E]" : "") + Name,-12} | ");
                 switch (Type)
                 {
                     case ItemType.Weapon:
@@ -172,6 +231,11 @@
                         break;
                 }
                 Console.WriteLine($"{Value} | {Description}");
+            }
+
+            public void ChangeItemEquipped()
+            {
+                IsEquipped = !IsEquipped;
             }
         }
     }
