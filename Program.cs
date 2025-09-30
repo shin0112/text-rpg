@@ -9,7 +9,7 @@
         private static Player player;
         public static Dictionary<SceneType, string[]> sceneSelections = new Dictionary<SceneType, string[]>()
         {
-            { SceneType.Start, ["", "상태 보기", "인벤토리", "랜덤 모험"] },
+            { SceneType.Start, ["", "상태 보기", "인벤토리", "랜덤 모험", "마을 순찰하기"] },
             { SceneType.Status, ["나가기"] },
             { SceneType.Inventory, ["나가기", "장착 관리"] },
             { SceneType.InventoryManagement, ["나가기"] }
@@ -42,9 +42,44 @@
                     case 3:
                         SelectRandomAdventure(player);
                         break;
+                    case 4:
+                        SelectPatrolTown(player);
+                        break;
                     default:
                         UI.WarnBadInput();
                         break;
+                }
+            }
+        }
+
+        private static void SelectPatrolTown(Player player)
+        {
+            int encounterProb = new Random().Next(10);
+            if (player.SpendStamina(5))
+            {
+                if (encounterProb < 1) // 0
+                {
+                    Console.WriteLine("마을 아이들이 모여있다. 간식을 사줘볼까?");
+                    player.UpdateGold(-500);
+                }
+                else if (encounterProb < 2) // 1
+                {
+                    Console.WriteLine("촌장님을 만나서 심부름을 했다.");
+                    player.UpdateGold(2000);
+                }
+                else if (encounterProb < 4) // 2, 3
+                {
+                    Console.WriteLine("길 읽은 사람을 안내해주었다.");
+                    player.UpdateGold(1000);
+                }
+                else if (encounterProb < 7) // 4, 5, 6
+                {
+                    Console.WriteLine("마을 주민과 인사를 나눴다. 선물을 받았다.");
+                    player.UpdateGold(500);
+                }
+                else // 7, 8, 9
+                {
+                    Console.WriteLine("아무 일도 일어나지 않았다");
                 }
             }
         }
@@ -58,7 +93,7 @@
                 {
                     case 0:
                         Console.WriteLine("몬스터 조우! 골드 500 획득");
-                        player.GainGold(500);
+                        player.UpdateGold(500);
                         break;
                     case 1:
                         Console.WriteLine("아무 일도 일어나지 않았다");
@@ -173,12 +208,12 @@
                 }
                 else
                 {
-                    Console.Write("스테미나가 부족합니다.");
+                    Console.WriteLine("스테미나가 부족합니다.");
                     return false;
                 }
             }
 
-            public void GainGold(int gold) => Gold += gold;
+            public void UpdateGold(int gold) => Gold += gold;
 
             // STEP 2
             public Player(string name, PlayerJob job)
