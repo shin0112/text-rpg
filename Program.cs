@@ -163,11 +163,11 @@ namespace TEXT_RPG
                 Console.WriteLine("캐릭터의 정보가 표시됩니다.\n");
 
                 // [attack, defnse]
-                int[] plusPower = CalculatePlusPower();
+                (int atk, int def) = CalculatePlusPower();
                 Console.WriteLine($"Lv. {Level:D2}");
                 Console.WriteLine($"Chad ( {Job.ToString()} )");
-                Console.WriteLine($"공격력 : {AttackPower} (+{plusPower[0]})");
-                Console.WriteLine($"방어력 : {DefensePower} (+{plusPower[1]})");
+                Console.WriteLine($"공격력 : {AttackPower} (+{atk})");
+                Console.WriteLine($"방어력 : {DefensePower} (+{def})");
                 Console.WriteLine($"체 력 : {Hp}");
                 Console.WriteLine($"Gold : {Gold} G");
 
@@ -199,7 +199,7 @@ namespace TEXT_RPG
                 Console.WriteLine();
             }
 
-            private int[] CalculatePlusPower()
+            private (int attackPower, int defensePower) CalculatePlusPower()
             {
                 int attackPower = 0, defensePower = 0;
                 foreach (Item item in Items)
@@ -209,7 +209,7 @@ namespace TEXT_RPG
                     if (item.Type == ItemType.Weapon) { attackPower += item.Value; }
                     else if (item.Type == ItemType.Armor) { defensePower += item.Value; }
                 }
-                return [attackPower, defensePower];
+                return (attackPower, defensePower);
             }
         }
 
