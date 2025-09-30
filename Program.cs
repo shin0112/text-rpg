@@ -95,9 +95,9 @@ namespace TEXT_RPG
                         type = SceneType.Inventory;
                         continue;
                     }
-                    else if (0 < select && select <= player.items.Count)
+                    else if (0 < select && select <= player.Items.Count)
                     {
-                        player.items[select - 1].ToggleEquip();
+                        player.Items[select - 1].ToggleEquip();
                         continue;
                     }
                 }
@@ -107,7 +107,7 @@ namespace TEXT_RPG
         private static int SelectAct(SceneType type)
         {
             int count = (type == SceneType.InventoryManagement)
-                ? player.items.Count + 1
+                ? player.Items.Count + 1
                 : sceneSelections[type].Length;
 
             while (true)
@@ -136,7 +136,7 @@ namespace TEXT_RPG
             private int DefensePower { get; set; }
             private int Hp { get; set; }
             private int Gold { get; set; }
-            public List<Item> items = new List<Item>();
+            public List<Item> Items { get; }
 
             // STEP 2
             public Player(string name, PlayerJob job)
@@ -150,9 +150,10 @@ namespace TEXT_RPG
                 Gold = 1500;
 
                 // STEP 5
-                items.Add(new Item("무쇠갑옷", ItemType.Armor, 5, "무쇠로 만들어져 튼튼한 갑옷입니다."));
-                items.Add(new Item("낡은 검", ItemType.Weapon, 2, "쉽게 볼 수 있는 낡은 검 입니다."));
-                items.Add(new Item("연습용 창", ItemType.Weapon, 3, "검보다는 그대로 창이 다루기 쉽죠."));
+                Items = new List<Item>();
+                Items.Add(new Item("무쇠갑옷", ItemType.Armor, 5, "무쇠로 만들어져 튼튼한 갑옷입니다."));
+                Items.Add(new Item("낡은 검", ItemType.Weapon, 2, "쉽게 볼 수 있는 낡은 검 입니다."));
+                Items.Add(new Item("연습용 창", ItemType.Weapon, 3, "검보다는 그대로 창이 다루기 쉽죠."));
             }
 
             // STEP 3 & 7
@@ -186,14 +187,14 @@ namespace TEXT_RPG
                 }
                 Console.WriteLine("보유 중인 아이템을 관리할 수 있습니다.\n");
                 Console.WriteLine("[아이템 목록]");
-                for (int i = 0; i < items.Count; i++)
+                for (int i = 0; i < Items.Count; i++)
                 {
                     Console.Write("- ");
                     if (showType == SceneType.InventoryManagement)
                     {
                         Console.Write($"{i + 1} ");
                     }
-                    items[i].ShowItemInfo();
+                    Items[i].ShowItemInfo();
                 }
                 Console.WriteLine();
             }
@@ -201,7 +202,7 @@ namespace TEXT_RPG
             private int[] CalculatePlusPower()
             {
                 int attackPower = 0, defensePower = 0;
-                foreach (Item item in items)
+                foreach (Item item in Items)
                 {
                     if (!item.IsEquipped) continue;
 
