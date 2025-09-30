@@ -63,7 +63,7 @@
                     };
                     string displayStat = statType + item.Value;
 
-                    string paddedName = UIHelper.GetPaddedString(displayName, 10);
+                    string paddedName = UIHelper.GetPaddedString(displayName, 15);
                     string paddedStat = UIHelper.GetPaddedString(displayStat, 10);
                     string paddedDescription = UIHelper.GetPaddedString(item.Description, 30);
 
