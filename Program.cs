@@ -242,6 +242,11 @@
             public void UpdateGold(int gold) => Gold += gold;
             public void UpdateExp(int exp) => Exp += exp;
 
+            public void SortItems()
+            {
+                Items.Sort((item, another) => item.Name.Length.CompareTo(another.Name.Length));
+            }
+
             // STEP 2
             public Player(string name, PlayerJob job)
             {
@@ -261,9 +266,9 @@
 
                 // STEP 5
                 Items = new List<Item>();
+                Items.Add(new Item("연습용 창", ItemType.Weapon, 3, "검보다는 그래도 창이 다루기 쉽죠."));
                 Items.Add(new Item("무쇠갑옷", ItemType.Armor, 5, "무쇠로 만들어져 튼튼한 갑옷입니다."));
                 Items.Add(new Item("낡은 검", ItemType.Weapon, 2, "쉽게 볼 수 있는 낡은 검 입니다."));
-                Items.Add(new Item("연습용 창", ItemType.Weapon, 3, "검보다는 그래도 창이 다루기 쉽죠."));
             }
 
             public (int attackPower, int defensePower) CalculatePlusPower()
