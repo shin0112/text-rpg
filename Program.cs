@@ -279,15 +279,25 @@
             {
                 switch (num)
                 {
-                    case 1: // 이름
-                        Items.Sort((item, another) => item.Name.Length.CompareTo(another.Name.Length));
+                    case 1: // 이름 길이 순
+                        Items.Sort((item, another) => another.Name.Length.CompareTo(item.Name.Length));
                         break;
                     case 2: // 장착순
                         Items.Sort((item, another) => another.IsEquipped.CompareTo(item.IsEquipped));
                         break;
                     case 3: // 공격력
+                        Items.Sort((item, another) =>
+                        {
+                            int ret = item.Type.CompareTo(another.Type);
+                            return ret != 0 ? ret : another.Value.CompareTo(item.Value);
+                        });
                         break;
                     case 4: // 방어력
+                        Items.Sort((item, another) =>
+                        {
+                            int ret = another.Type.CompareTo(item.Type);
+                            return ret != 0 ? ret : another.Value.CompareTo(item.Value);
+                        });
                         break;
                     default:
                         break;
