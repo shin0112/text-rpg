@@ -333,19 +333,21 @@
 
             public void ToggleEquip(int idx)
             {
-                int prevIdx = equipped[Items[idx].Type];
+                ItemType type = Items[idx].Type;
+                int prevIdx = equipped[type];
+
                 if (idx == prevIdx)
                 {
                     Items[prevIdx].ToggleEquip();
+                    equipped[type] = -1;
                     return;
                 }
-
-                if (prevIdx >= 0)
+                else if (prevIdx >= 0)
                 {
                     Items[prevIdx].ToggleEquip();
                 }
 
-                equipped[Items[idx].Type] = idx;
+                equipped[type] = idx;
                 Items[idx].ToggleEquip();
             }
         }
