@@ -6,7 +6,7 @@
         {
             public class ShopUI
             {
-                public static void ShowShop(Player player)
+                public static void ShowShop(Player player, Shop shop)
                 {
                     UI.UIHelper.WriteTitle("상점");
                     Console.WriteLine("필요한 아이템을 필요한 아이템을 얻을 수 있는 상점입니다.\n");
@@ -15,7 +15,14 @@
                     Console.WriteLine($"{player.Gold} G\n");
 
                     Console.WriteLine("[아이템 목록]");
-                    // 아이템 목록
+                    foreach (var keyValue in shop.Items)
+                    {
+                        Console.Write("- ");
+                        ItemUI.ShowItemInfo(keyValue.Key);
+                        Console.Write($" | {(keyValue.Value ? "구매완료" : keyValue.Key.Price + " G")}");
+                        Console.WriteLine();
+                    }
+                    Console.WriteLine();
                 }
             }
 
@@ -58,6 +65,7 @@
                             Console.Write($"{i + 1} ");
                         }
                         UI.ItemUI.ShowItemInfo(items[i]);
+                        Console.WriteLine();
                     }
                     Console.WriteLine();
                 }
@@ -80,9 +88,9 @@
 
                     string paddedName = UIHelper.GetPaddedString(displayName, 15);
                     string paddedStat = UIHelper.GetPaddedString(displayStat, 10);
-                    string paddedDescription = UIHelper.GetPaddedString(item.Description, 30);
+                    string paddedDescription = UIHelper.GetPaddedString(item.Description, 50);
 
-                    Console.WriteLine($"{paddedName} | {paddedStat} | {paddedDescription}");
+                    Console.Write($"{paddedName} | {paddedStat} | {paddedDescription}");
                 }
             }
 
