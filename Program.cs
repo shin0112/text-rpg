@@ -157,16 +157,18 @@ namespace TEXT_RPG
                 items.Add(new Item("연습용 창", ItemType.Weapon, 3, "검보다는 그대로 창이 다루기 쉽죠."));
             }
 
-            // STEP 3
+            // STEP 3 & 7
             public void ShowStatus()
             {
                 Console.WriteLine("상태 보기");
                 Console.WriteLine("캐릭터의 정보가 표시됩니다.\n");
 
+                // [attack, defnse]
+                int[] plusPower = CalculatePlusPower();
                 Console.WriteLine($"Lv. {Level:D2}");
                 Console.WriteLine($"Chad ( {Job.ToString()} )");
-                Console.WriteLine($"공격력 : {AttackPower}");
-                Console.WriteLine($"방어력 : {DefensePower}");
+                Console.WriteLine($"공격력 : {AttackPower} (+{plusPower[0]})");
+                Console.WriteLine($"방어력 : {DefensePower} (+{plusPower[1]})");
                 Console.WriteLine($"체 력 : {Hp}");
                 Console.WriteLine($"Gold : {Gold} G");
 
@@ -197,13 +199,26 @@ namespace TEXT_RPG
                 }
                 Console.WriteLine();
             }
+
+            private int[] CalculatePlusPower()
+            {
+                int attackPower = 0, defensePower = 0;
+                foreach (Item item in items)
+                {
+                    if (!item.IsEquipped) continue;
+
+                    if (item.Type == ItemType.Weapon) { attackPower += item.Value; }
+                    else if (item.Type == ItemType.Armor) { defensePower += item.Value; }
+                }
+                return [attackPower, defensePower];
+            }
         }
 
         class Item
         {
             private string Name { get; set; }
-            private ItemType Type { get; set; }
-            private int Value { get; set; }
+            public ItemType Type { get; private set; }
+            public int Value { get; private set; }
             private string Description { get; set; }
             public bool IsEquipped { get; private set; }
 
