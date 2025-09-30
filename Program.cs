@@ -1,5 +1,4 @@
-﻿
-namespace TEXT_RPG
+﻿namespace TEXT_RPG
 {
     enum PlayerJob { 전사, 마법사, 궁수 }
     enum ItemType { Weapon, Armor }
@@ -10,7 +9,7 @@ namespace TEXT_RPG
         private static Player player;
         public static Dictionary<SceneType, string[]> sceneSelections = new Dictionary<SceneType, string[]>()
         {
-            { SceneType.Start, ["", "상태 보기", "인벤토리"] },
+            { SceneType.Start, ["", "상태 보기", "인벤토리", "랜덤 모험"] },
             { SceneType.Status, ["나가기"] },
             { SceneType.Inventory, ["나가기", "장착 관리"] },
             { SceneType.InventoryManagement, ["나가기"] }
@@ -40,8 +39,31 @@ namespace TEXT_RPG
                     case 2:
                         SceneInventory(SceneType.Inventory);
                         break;
+                    case 3:
+                        SelectRandomAdventure(player);
+                        break;
                     default:
                         UI.WarnBadInput();
+                        break;
+                }
+            }
+        }
+
+        private static void SelectRandomAdventure(Player player)
+        {
+            int encounterProb = new Random().Next(2);
+            if (player.SpendStamina(10))
+            {
+                switch (encounterProb)
+                {
+                    case 0:
+                        Console.WriteLine("몬스터 조우! 골드 500 획득");
+                        player.GainGold(500);
+                        break;
+                    case 1:
+                        Console.WriteLine("아무 일도 일어나지 않았다");
+                        break;
+                    default:
                         break;
                 }
             }
@@ -141,6 +163,22 @@ namespace TEXT_RPG
             private int Gold { get; set; }
 
             public List<Item> Items { get; }
+
+            public bool SpendStamina(int stamina)
+            {
+                if (Stamina >= stamina)
+                {
+                    Stamina -= stamina;
+                    return true;
+                }
+                else
+                {
+                    Console.Write("스테미나가 부족합니다.");
+                    return false;
+                }
+            }
+
+            public void GainGold(int gold) => Gold += gold;
 
             // STEP 2
             public Player(string name, PlayerJob job)
