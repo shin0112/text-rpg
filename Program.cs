@@ -97,7 +97,7 @@ namespace TEXT_RPG
                     }
                     else if (0 < select && select <= player.items.Count)
                     {
-                        player.items[select - 1].ChangeItemEquipped();
+                        player.items[select - 1].ToggleEquip();
                         continue;
                     }
                 }
@@ -246,7 +246,7 @@ namespace TEXT_RPG
                 Console.WriteLine($"{Value} | {Description}");
             }
 
-            public void ChangeItemEquipped()
+            public void ToggleEquip()
             {
                 IsEquipped = !IsEquipped;
             }
