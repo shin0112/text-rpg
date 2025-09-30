@@ -131,13 +131,13 @@ namespace TEXT_RPG
 
         class Player
         {
-            public int Level { get; private set; }
-            public string Name { get; private set; }
-            public PlayerJob Job { get; private set; }
-            public int AttackPower { get; private set; }
-            public int DefensePower { get; private set; }
-            public int Hp { get; private set; }
-            public int Gold { get; private set; }
+            private int Level { get; set; }
+            private string Name { get; set; }
+            private PlayerJob Job { get; set; }
+            private int AttackPower { get; set; }
+            private int DefensePower { get; set; }
+            private int Hp { get; set; }
+            private int Gold { get; set; }
             public List<Item> items = new List<Item>();
 
             // STEP 2
