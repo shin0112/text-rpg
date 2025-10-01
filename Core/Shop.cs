@@ -23,7 +23,7 @@
             }
         }
 
-        public static void PurchaseItem(ShopEntry shopEntry, Player player)
+        public void PurchaseItem(ShopEntry shopEntry, Player player)
         {
             if (shopEntry.IsPurchased) // 이미 구매
             {
