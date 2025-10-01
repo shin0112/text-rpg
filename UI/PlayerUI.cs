@@ -4,8 +4,10 @@ namespace TEXT_RPG.UI
 {
     internal class PlayerUI
     {
-        public static void ShowPlayerInfo(Player player)
+        public static void ShowPlayerInfo()
         {
+            Player player = GameManager.Instance.Player;
+
             UIHelper.WriteTitle("상태 보기");
             Console.WriteLine("캐릭터의 정보가 표시됩니다.\n");
 
@@ -21,7 +23,7 @@ namespace TEXT_RPG.UI
             Console.WriteLine($"Gold : {player.Gold} G");
         }
 
-        public static void ShowInventory(SceneType showType, List<Core.Item> items)
+        public static void ShowInventory(SceneType showType, List<Item> items)
         {
             if (showType == SceneType.Inventory)
             {

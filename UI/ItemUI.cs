@@ -1,8 +1,10 @@
-﻿namespace TEXT_RPG.UI
+﻿using TEXT_RPG.Core;
+
+namespace TEXT_RPG.UI
 {
     internal class ItemUI
     {
-        public static void ShowItemInfo(Core.Item item)
+        public static void ShowItemInfo(Item item)
         {
             string prefix = item.IsEquipped ? "[E]" : "";
             string displayName = prefix + item.Name;
