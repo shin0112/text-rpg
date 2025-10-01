@@ -2,7 +2,7 @@
 {
     enum PlayerJob { 전사, 마법사, 궁수 }
     enum ItemType { Weapon, Armor }
-    enum SceneType { Start, Status, Inventory, InventoryManagement, InventorySort, Shop }
+    enum SceneType { Start, Status, Inventory, InventoryManagement, InventorySort, Shop, ShopPurchase }
 
     internal partial class Program
     {
@@ -15,7 +15,8 @@
             { SceneType.Inventory, ["나가기", "장착 관리", "아이템 정렬"] },
             { SceneType.InventoryManagement, ["나가기"] },
             { SceneType.InventorySort, ["나가기", "이름", "장착순", "공격력", "방어력"] },
-            { SceneType.Shop, ["나가기", "아이템 구매"] }
+            { SceneType.Shop, ["나가기", "아이템 구매"] },
+            { SceneType.ShopPurchase, ["나가기"] }
         };
 
         static void Main(string[] args)
@@ -183,20 +184,56 @@
 
         private static void SceneShop()
         {
-            UI.ShopUI.ShowShop(player, shop);
-            UI.UIHelper.WriteOptions(SceneType.Shop, sceneSelections[SceneType.Shop]);
-            int select = SelectAct(SceneType.Shop);
+            int select;
+            SceneType type = SceneType.Shop;
+            bool isExit = false;
 
+            while (true)
+            {
+                Console.Clear();
+            UI.ShopUI.ShowShop(player, shop);
+                UI.UIHelper.WriteOptions(type, sceneSelections[type]);
+                select = SelectAct(type);
+
+                switch (type)
+                {
+                    case SceneType.Shop:
+                        isExit = ShopDefault(select, ref type);
+                        break;
+                    case SceneType.ShopPurchase: // 아이템 구매
+                        ShopPurchase(select, ref type);
+                        break;
+                    default:
+                        break;
+                }
+
+                if (isExit) break;
+            }
+        }
+
+        private static void ShopPurchase(int select, ref SceneType type)
+        {
+            if (select == 0) // 나가기
+            {
+                Console.Clear();
+                type = SceneType.Shop;
+            }
+            else if (0 < select && select <= shop.Items.Count) // 구매
+            {
+                Shop.PurchaseItem(select - 1); // 실제 데이터 idx는 하나 더 작음
+            }
+        }
+
+        private static bool ShopDefault(int select, ref SceneType type)
+        {
             switch (select)
             {
                 case 0:
                     Console.Clear();
-                    return;
-                case 1:
-                    // 아이템 구매
-                    break;
+                    return true;
                 default:
-                    break;
+                    type = SceneType.ShopPurchase;
+                    return false;
             }
         }
 
