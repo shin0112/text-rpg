@@ -7,7 +7,7 @@
 
         protected override void HandleInput(int select)
         {
-            throw new NotImplementedException();
+            if (select == 0) { Manager.ChangeScene(SceneType.Start); }
         }
 
         public override void Show()
@@ -16,11 +16,8 @@
             UI.PlayerUI.ShowPlayerInfo();
             UI.UIHelper.WriteOptions();
             select = Manager.SelectAct(SceneType.Status);
-            if (select == 0)
-            {
-                Console.Clear();
-                return;
-            }
+
+            HandleInput(select);
         }
     }
 }
