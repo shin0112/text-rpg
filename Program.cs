@@ -17,12 +17,9 @@ namespace TEXT_RPG
         static void Main(string[] args)
         {
             ArgumentNullException.ThrowIfNull(args);
-
-            GameManager gameManager = new();
-            Player player = gameManager.Player;
-            Shop shop = gameManager.Shop;
-            var sceneSelections = gameManager.Scenes;
-
+            Player player = GameManager.Instance.Player;
+            Shop shop = GameManager.Instance.Shop;
+            var sceneSelections = GameManager.Instance.Scenes;
 
             UIHelper.SetInitDesign();
             int select;
@@ -34,7 +31,7 @@ namespace TEXT_RPG
                 Console.WriteLine("이곳에서 던전으로 들어가기 전 활동을 할 수 있습니다.\n");
                 UIHelper.WriteOptions(SceneType.Start, sceneSelections[SceneType.Start]);
 
-                select = SelectAct(SceneType.Start, player, shop, sceneSelections);
+                select = GameManager.Instance.SelectAct(SceneType.Start, player, shop, sceneSelections);
                 Console.Clear();
 
                 switch (select)
@@ -137,44 +134,6 @@ namespace TEXT_RPG
                         break;
                 }
             }
-        }
-
-        private static int SelectAct(
-            SceneType type,
-            Player player,
-            Shop shop, Dictionary<SceneType,
-                string[]> sceneSelections)
-        {
-            int count = GetSelectionCount(type, player, shop, sceneSelections);
-
-            while (true)
-            {
-                Console.WriteLine("\n원하시는 행동을 입력해주세요.");
-                Console.Write(">> ");
-                if (int.TryParse(Console.ReadLine(), out int input))
-                {
-                    if (input < count && input > -1) { return input; }
-                    else { UIHelper.WarnBadInput(); }
-                }
-                else
-                {
-                    UIHelper.WarnBadInput();
-                }
-            }
-        }
-
-        private static int GetSelectionCount(
-            SceneType type,
-            Player player,
-            Shop shop,
-            Dictionary<SceneType, string[]> sceneSelections)
-        {
-            return type switch
-            {
-                SceneType.InventoryManagement => player.Items.Count + 1,
-                SceneType.ShopPurchase => shop.ShopEntries.Count + 1,
-                _ => sceneSelections[type].Length
-            };
         }
     }
 }

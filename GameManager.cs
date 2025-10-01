@@ -1,9 +1,12 @@
 ﻿using TEXT_RPG.Core;
+using TEXT_RPG.UI;
 
 namespace TEXT_RPG
 {
     internal class GameManager
     {
+        public static GameManager Instance => new();
+
         public Player Player { get; }
         public Shop Shop { get; }
         public Dictionary<SceneType, string[]> Scenes { get; }
@@ -21,6 +24,36 @@ namespace TEXT_RPG
                 { SceneType.InventorySort, ["나가기", "이름", "장착순", "공격력", "방어력"] },
                 { SceneType.Shop, ["나가기", "아이템 구매"] },
                 { SceneType.ShopPurchase, ["나가기"] }
+            };
+        }
+
+        public int SelectAct(SceneType type)
+        {
+            int count = GetSelectionCount(type);
+
+            while (true)
+            {
+                Console.WriteLine("\n원하시는 행동을 입력해주세요.");
+                Console.Write(">> ");
+                if (int.TryParse(Console.ReadLine(), out int input))
+                {
+                    if (input < count && input > -1) { return input; }
+                    else { UIHelper.WarnBadInput(); }
+                }
+                else
+                {
+                    UIHelper.WarnBadInput();
+                }
+            }
+        }
+
+        private int GetSelectionCount(SceneType type)
+        {
+            return type switch
+            {
+                SceneType.InventoryManagement => Player.Items.Count + 1,
+                SceneType.ShopPurchase => Shop.ShopEntries.Count + 1,
+                _ => Scenes[type].Length
             };
         }
     }
