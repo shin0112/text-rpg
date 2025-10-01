@@ -201,6 +201,8 @@
                 }
             }
 
+            internal void GetItem(Item item) => Items.Add(item);
+
             public void UpdateGold(int gold) => Gold += gold;
             public void UpdateExp(int exp) => Exp += exp;
 
@@ -382,6 +384,7 @@
                 if (shopEntry.Item.Price <= player.Gold) // 보유금액 충족
                 {
                     player.UpdateGold(-shopEntry.Item.Price);
+                    player.GetItem(shopEntry.Item);
                     shopEntry.TogglePurchased();
                     Console.WriteLine("구매를 완료했습니다.");
                 }
