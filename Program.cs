@@ -428,7 +428,7 @@
 
         public class Shop
         {
-            public Dictionary<Item, bool> Items { get; private set; }
+            public List<(Item, bool)> Items { get; private set; }
 
             public Shop()
             {
@@ -442,8 +442,18 @@
                     new("스파르타의 창", ItemType.Weapon, 7, "스파르타의 전사들이 사용했다는 전설의 창입니다.", 0)
                 };
 
-                Items = [];
-                foreach (Item item in items)
+                Items = new();
+                for (int i = 0; i < items.Count; i++)
+                {
+                    Items.Add((items[i], items[i].Price == 0));
+                }
+            }
+
+            internal static void PurchaseItem(int select)
+            {
+                // 아이템 구매하기
+                // 이미 구매
+                if (shop.Items[select].Item2 == true)
                 {
                     Items[item] = item.Price == 0;
                 }
