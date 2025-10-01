@@ -1,9 +1,9 @@
 ﻿namespace TEXT_RPG.Scenes
 {
-    internal class StatusScene : Scene
+    internal class StartScene : Scene
     {
-        protected override string Title => "상태 보기";
-        public override string[] Options => ["나가기"];
+        protected override string Title => "";
+        public override string[] Options => ["", "상태 보기", "인벤토리", "랜덤 모험", "마을 순찰하기", "훈련하기", "상점"];
 
         protected override void HandleInput(int select)
         {
@@ -14,7 +14,7 @@
         {
             int select;
             UI.PlayerUI.ShowPlayerInfo();
-            UI.UIHelper.WriteOptions(SceneType.Status, Manager.Scenes[SceneType.Status]);
+            UI.UIHelper.WriteOptions();
             select = Manager.SelectAct(SceneType.Status);
             if (select == 0)
             {

@@ -1,9 +1,15 @@
-﻿using TEXT_RPG.Core;
-
-namespace TEXT_RPG.Scenes
+﻿namespace TEXT_RPG.Scenes.Shop
 {
     internal class ShopScene : Scene
     {
+        protected override string Title => "상점";
+        public override string[] Options => ["나가기", "아이템 구매"];
+
+        protected override void HandleInput(int select)
+        {
+            throw new NotImplementedException();
+        }
+
         public override void Show()
         {
             int select;
@@ -14,7 +20,7 @@ namespace TEXT_RPG.Scenes
             {
                 Console.Clear();
                 UI.ShopUI.ShowShop(type);
-                UI.UIHelper.WriteOptions(type, Manager.Scenes[type]);
+                UI.UIHelper.WriteOptions();
                 select = Manager.SelectAct(type);
 
                 switch (type)
@@ -42,7 +48,7 @@ namespace TEXT_RPG.Scenes
             }
             else if (0 < select && select <= Manager.Shop.ShopEntries.Count) // 구매
             {
-                Shop.PurchaseItem(Manager.Shop.ShopEntries[select - 1], Manager.Player); // 실제 데이터 idx는 하나 더 작음
+                Manager.Shop.PurchaseItem(Manager.Shop.ShopEntries[select - 1], Manager.Player); // 실제 데이터 idx는 하나 더 작음
             }
         }
 
