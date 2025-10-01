@@ -21,7 +21,7 @@
                 Console.Clear();
                 UI.ShopUI.ShowShop(type);
                 UI.UIHelper.WriteOptions();
-                select = Manager.SelectAct(type);
+                select = Manager.SelectAct();
 
                 switch (type)
                 {

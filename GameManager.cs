@@ -50,9 +50,9 @@ namespace TEXT_RPG
             CurrentScene = Scenes[sceneType];
         }
 
-        public int SelectAct(SceneType type)
+        public int SelectAct()
         {
-            int count = GetSelectionCount(type);
+            int count = CurrentScene.SelectionCount;
 
             while (true)
             {
@@ -68,16 +68,6 @@ namespace TEXT_RPG
                     UIHelper.WarnBadInput();
                 }
             }
-        }
-
-        private int GetSelectionCount(SceneType type)
-        {
-            return type switch
-            {
-                SceneType.InventoryManagement => Player.Items.Count + 1,
-                SceneType.ShopPurchase => Shop.ShopEntries.Count + 1,
-                _ => ScenesSelections[type].Length
-            };
         }
     }
 }

@@ -14,7 +14,7 @@ namespace TEXT_RPG.Scenes
             Console.WriteLine("이곳에서 던전으로 들어가기 전 활동을 할 수 있습니다.\n");
             UIHelper.WriteOptions();
 
-            int select = Manager.SelectAct(SceneType.Start);
+            int select = Manager.SelectAct();
 
             HandleInput(select);
         }

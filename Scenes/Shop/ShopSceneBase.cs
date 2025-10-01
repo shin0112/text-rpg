@@ -15,7 +15,7 @@
             int select;
             UI.PlayerUI.ShowPlayerInfo();
             UI.UIHelper.WriteOptions();
-            select = Manager.SelectAct(SceneType.Status);
+            select = Manager.SelectAct();
             if (select == 0)
             {
                 Console.Clear();
