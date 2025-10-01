@@ -6,6 +6,12 @@
 
     internal partial class Program
     {
+        // scene
+        public static StatusScene statusScene = new StatusScene();
+        public static InventoryScene inventoryScene = new InventoryScene();
+        public static ShopScene shopScene = new ShopScene();
+
+        // object 정의
         private static Player player = new("강한 전사", PlayerJob.전사);
         private static Shop shop = new();
         public static Dictionary<SceneType, string[]> sceneSelections = new()
@@ -38,10 +44,10 @@
                 switch (select)
                 {
                     case 1:
-                        SceneStatus();
+                        statusScene.Show();
                         break;
                     case 2:
-                        SceneInventory();
+                        inventoryScene.Show();
                         break;
                     case 3:
                         SelectRandomAdventure();
@@ -53,7 +59,7 @@
                         SelectTraining();
                         break;
                     case 6:
-                        SceneShop();
+                        shopScene.Show();
                         break;
                     default:
                         UI.UIHelper.WarnBadInput();
@@ -135,151 +141,6 @@
                         break;
                 }
             }
-        }
-
-        private static void SceneStatus()
-        {
-            int select;
-            UI.PlayerUI.ShowPlayerInfo(player);
-            UI.UIHelper.WriteOptions(SceneType.Status, sceneSelections[SceneType.Status]);
-            select = SelectAct(SceneType.Status);
-            if (select == 0)
-            {
-                Console.Clear();
-                return;
-            }
-        }
-
-        private static void SceneInventory()
-        {
-            int select;
-            SceneType type = SceneType.Inventory;
-            bool isExit = false;
-
-            while (true)
-            {
-                Console.Clear();
-                UI.PlayerUI.ShowInventory(type, player.Items);
-                UI.UIHelper.WriteOptions(type, sceneSelections[type]);
-                select = SelectAct(type);
-
-                switch (type)
-                {
-                    case SceneType.Inventory:
-                        isExit = InventoryDefault(select, ref type);
-                        break;
-                    case SceneType.InventoryManagement:
-                        InventoryManagement(select, ref type);
-                        break;
-                    case SceneType.InventorySort:
-                        InventorySort(select, ref type);
-                        break;
-                    default:
-                        break;
-                }
-
-                if (isExit) break;
-            }
-        }
-
-        private static void SceneShop()
-        {
-            int select;
-            SceneType type = SceneType.Shop;
-            bool isExit = false;
-
-            while (true)
-            {
-                Console.Clear();
-            UI.ShopUI.ShowShop(player, shop);
-                UI.UIHelper.WriteOptions(type, sceneSelections[type]);
-                select = SelectAct(type);
-
-                switch (type)
-                {
-                    case SceneType.Shop:
-                        isExit = ShopDefault(select, ref type);
-                        break;
-                    case SceneType.ShopPurchase: // 아이템 구매
-                        ShopPurchase(select, ref type);
-                        break;
-                    default:
-                        break;
-                }
-
-                if (isExit) break;
-            }
-        }
-
-        private static void ShopPurchase(int select, ref SceneType type)
-        {
-            if (select == 0) // 나가기
-            {
-                Console.Clear();
-                type = SceneType.Shop;
-            }
-            else if (0 < select && select <= shop.ShopEntries.Count) // 구매
-            {
-                Shop.PurchaseItem(shop.ShopEntries[select - 1]); // 실제 데이터 idx는 하나 더 작음
-            }
-        }
-
-        private static bool ShopDefault(int select, ref SceneType type)
-        {
-            switch (select)
-            {
-                case 0:
-                    Console.Clear();
-                    return true;
-                default:
-                    type = SceneType.ShopPurchase;
-                    return false;
-            }
-        }
-
-        private static void InventorySort(int select, ref SceneType type)
-        {
-            if (select == 0)
-            {
-                Console.Clear();
-                type = SceneType.Inventory;
-            }
-            else
-            {
-                player.SortItems((byte)select);
-            }
-        }
-
-        private static void InventoryManagement(int select, ref SceneType type)
-        {
-            if (select == 0)
-            {
-                Console.Clear();
-                type = SceneType.Inventory;
-            }
-            else if (0 < select && select <= player.Items.Count)
-            {
-                player.ToggleEquip(player.Items[select - 1]);
-            }
-        }
-
-        private static bool InventoryDefault(int select, ref SceneType type)
-        {
-            switch (select)
-            {
-                case 0: // start
-                    Console.Clear();
-                    return true;
-                case 1: // 장착 관리
-                    type = SceneType.InventoryManagement;
-                    break;
-                case 2: // 아이템 정렬
-                    type = SceneType.InventorySort;
-                    break;
-                default:
-                    break;
-            }
-            return false;
         }
 
         private static int SelectAct(SceneType type)
@@ -508,16 +369,25 @@
                 {
                     ShopEntries.Add(new ShopEntry(item));
                 }
-                }
             }
 
-            internal static void PurchaseItem(int select)
+            public static void PurchaseItem(ShopEntry shopEntry)
             {
-                // 아이템 구매하기
-                // 이미 구매
-                if (shop.Items[select].Item2 == true)
+                if (shopEntry.IsPurchased) // 이미 구매
                 {
-                    Items[item] = item.Price == 0;
+                    Console.WriteLine("이미 구매한 아이템입니다.");
+                }
+
+
+                if (shopEntry.Item.Price <= player.Gold) // 보유금액 충족
+                {
+                    player.UpdateGold(-shopEntry.Item.Price);
+                    shopEntry.TogglePurchased();
+                    Console.WriteLine("구매를 완료했습니다.");
+                }
+                else // 보유 금액 미달
+                {
+                    Console.WriteLine("Gold가 부족합니다.");
                 }
             }
         }
