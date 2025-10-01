@@ -1,4 +1,6 @@
-﻿namespace TEXT_RPG
+﻿using TEXT_RPG.Core;
+
+namespace TEXT_RPG
 {
     enum PlayerJob { 전사, 마법사, 궁수 }
     enum ItemType { Weapon, Armor }
@@ -11,23 +13,15 @@
         public static InventoryScene inventoryScene = new InventoryScene();
         public static ShopScene shopScene = new ShopScene();
 
-        // object 정의
-        private static Core.Player player = new("강한 전사", PlayerJob.전사);
-        private static Core.Shop shop = new();
-        public static Dictionary<SceneType, string[]> sceneSelections = new()
-        {
-            { SceneType.Start, ["", "상태 보기", "인벤토리", "랜덤 모험", "마을 순찰하기", "훈련하기", "상점"] },
-            { SceneType.Status, ["나가기"] },
-            { SceneType.Inventory, ["나가기", "장착 관리", "아이템 정렬"] },
-            { SceneType.InventoryManagement, ["나가기"] },
-            { SceneType.InventorySort, ["나가기", "이름", "장착순", "공격력", "방어력"] },
-            { SceneType.Shop, ["나가기", "아이템 구매"] },
-            { SceneType.ShopPurchase, ["나가기"] }
-        };
-
         static void Main(string[] args)
         {
             ArgumentNullException.ThrowIfNull(args);
+
+            GameManager gameManager = new();
+            Player player = gameManager.Player;
+            Shop shop = gameManager.Shop;
+            var sceneSelections = gameManager.Scenes;
+
             UI.UIHelper.SetInitDesign();
             int select;
 
@@ -38,7 +32,7 @@
                 Console.WriteLine("이곳에서 던전으로 들어가기 전 활동을 할 수 있습니다.\n");
                 UI.UIHelper.WriteOptions(SceneType.Start, sceneSelections[SceneType.Start]);
 
-                select = SelectAct(SceneType.Start);
+                select = SelectAct(SceneType.Start, player, shop, sceneSelections);
                 Console.Clear();
 
                 switch (select)
@@ -50,13 +44,13 @@
                         inventoryScene.Show();
                         break;
                     case 3:
-                        SelectRandomAdventure();
+                        SelectRandomAdventure(player);
                         break;
                     case 4:
-                        SelectPatrolTown();
+                        SelectPatrolTown(player);
                         break;
                     case 5:
-                        SelectTraining();
+                        SelectTraining(player);
                         break;
                     case 6:
                         shopScene.Show();
@@ -68,7 +62,7 @@
             }
         }
 
-        private static void SelectTraining()
+        private static void SelectTraining(Player player)
         {
             int encounterProb = new Random().Next(100);
             if (player.SpendStamina(15))
@@ -91,7 +85,7 @@
             }
         }
 
-        private static void SelectPatrolTown()
+        private static void SelectPatrolTown(Player player)
         {
             int encounterProb = new Random().Next(100);
             if (player.SpendStamina(5))
@@ -123,7 +117,7 @@
             }
         }
 
-        private static void SelectRandomAdventure()
+        private static void SelectRandomAdventure(Player player)
         {
             int encounterProb = new Random().Next(2);
             if (player.SpendStamina(10))
@@ -143,9 +137,13 @@
             }
         }
 
-        private static int SelectAct(SceneType type)
+        private static int SelectAct(
+            SceneType type,
+            Player player,
+            Shop shop, Dictionary<SceneType,
+                string[]> sceneSelections)
         {
-            int count = GetSelectionCount(type);
+            int count = GetSelectionCount(type, player, shop, sceneSelections);
 
             while (true)
             {
@@ -163,7 +161,11 @@
             }
         }
 
-        private static int GetSelectionCount(SceneType type)
+        private static int GetSelectionCount(
+            SceneType type,
+            Player player,
+            Shop shop,
+            Dictionary<SceneType, string[]> sceneSelections)
         {
             return type switch
             {
