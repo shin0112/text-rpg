@@ -31,6 +31,7 @@ namespace TEXT_RPG
                 { SceneType.Shop,  new ShopScene()},
                 { SceneType.ShopPurchase, new ShopPurchaseScene()}
             };
+            CurrentScene = Scenes[SceneType.Start];
 
             ScenesSelections = new Dictionary<SceneType, string[]>
             {
