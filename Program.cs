@@ -284,9 +284,7 @@
 
         private static int SelectAct(SceneType type)
         {
-            int count = (type == SceneType.InventoryManagement)
-                ? player.Items.Count + 1
-                : sceneSelections[type].Length;
+            int count = GetSelectionCount(type);
 
             while (true)
             {
@@ -304,6 +302,15 @@
             }
         }
 
+        private static int GetSelectionCount(SceneType type)
+        {
+            return type switch
+            {
+                SceneType.InventoryManagement => player.Items.Count + 1,
+                SceneType.ShopPurchase => shop.Items.Count + 1,
+                _ => sceneSelections[type].Length
+            };
+        }
 
         class Player
         {
