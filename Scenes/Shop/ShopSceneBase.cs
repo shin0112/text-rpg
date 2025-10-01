@@ -11,5 +11,7 @@ namespace TEXT_RPG.Scenes.Shop
             int select = Manager.SelectAct();
             HandleInput(select);
         }
+
+        public void ToggleShopNumbered() => Manager.ShopNumbered = !Manager.ShopNumbered;
     }
 }
