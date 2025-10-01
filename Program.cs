@@ -1,4 +1,5 @@
 ﻿using TEXT_RPG.Core;
+using TEXT_RPG.UI;
 
 namespace TEXT_RPG
 {
@@ -22,7 +23,8 @@ namespace TEXT_RPG
             Shop shop = gameManager.Shop;
             var sceneSelections = gameManager.Scenes;
 
-            UI.UIHelper.SetInitDesign();
+
+            UIHelper.SetInitDesign();
             int select;
 
             // STEP 1
@@ -30,7 +32,7 @@ namespace TEXT_RPG
             {
                 Console.WriteLine("스파르타 마을에 오신 여러분 환영합니다.");
                 Console.WriteLine("이곳에서 던전으로 들어가기 전 활동을 할 수 있습니다.\n");
-                UI.UIHelper.WriteOptions(SceneType.Start, sceneSelections[SceneType.Start]);
+                UIHelper.WriteOptions(SceneType.Start, sceneSelections[SceneType.Start]);
 
                 select = SelectAct(SceneType.Start, player, shop, sceneSelections);
                 Console.Clear();
@@ -56,7 +58,7 @@ namespace TEXT_RPG
                         shopScene.Show();
                         break;
                     default:
-                        UI.UIHelper.WarnBadInput();
+                        UIHelper.WarnBadInput();
                         break;
                 }
             }
@@ -152,11 +154,11 @@ namespace TEXT_RPG
                 if (int.TryParse(Console.ReadLine(), out int input))
                 {
                     if (input < count && input > -1) { return input; }
-                    else { UI.UIHelper.WarnBadInput(); }
+                    else { UIHelper.WarnBadInput(); }
                 }
                 else
                 {
-                    UI.UIHelper.WarnBadInput();
+                    UIHelper.WarnBadInput();
                 }
             }
         }
