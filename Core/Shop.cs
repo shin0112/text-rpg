@@ -27,20 +27,18 @@
         {
             if (shopEntry.IsPurchased) // 이미 구매
             {
-                Console.WriteLine("이미 구매한 아이템입니다.");
+                GameManager.Instance.HeaderText = "이미 구매한 아이템입니다.";
             }
-
-
-            if (shopEntry.Item.Price <= player.Gold) // 보유금액 충족
+            else if (shopEntry.Item.Price <= player.Gold) // 보유금액 충족
             {
                 player.UpdateGold(-shopEntry.Item.Price);
                 player.GetItem(shopEntry.Item);
                 shopEntry.TogglePurchased();
-                Console.WriteLine("구매를 완료했습니다.");
+                GameManager.Instance.HeaderText = "구매를 완료했습니다.";
             }
             else // 보유 금액 미달
             {
-                Console.WriteLine("Gold가 부족합니다.");
+                GameManager.Instance.HeaderText = "Gold가 부족합니다.";
             }
         }
     }

@@ -42,7 +42,7 @@ namespace TEXT_RPG.Scenes
                     Manager.ChangeScene(SceneType.Shop);
                     break;
                 default:
-                    UIHelper.WarnBadInput();
+                    Manager.WarnBadInput();
                     break;
             }
         }
@@ -56,17 +56,17 @@ namespace TEXT_RPG.Scenes
             {
                 if (encounterProb < 15)
                 {
-                    Console.WriteLine("훈련이 잘 되었습니다!");
+                    Manager.HeaderText = "훈련이 잘 되었습니다!";
                     player.UpdateExp(60);
                 }
                 else if (encounterProb < 60)
                 {
-                    Console.WriteLine("오늘하루 열심히 훈련했습니다.");
+                    Manager.HeaderText = "오늘하루 열심히 훈련했습니다.";
                     player.UpdateExp(40);
                 }
                 else
                 {
-                    Console.WriteLine("하기 싫다... 훈련이...");
+                    Manager.HeaderText = "하기 싫다... 훈련이...";
                     player.UpdateExp(30);
                 }
             }
@@ -81,27 +81,27 @@ namespace TEXT_RPG.Scenes
             {
                 if (encounterProb < 10)
                 {
-                    Console.WriteLine("마을 아이들이 모여있다. 간식을 사줘볼까?");
+                    Manager.HeaderText = "마을 아이들이 모여있다. 간식을 사줘볼까?";
                     player.UpdateGold(-500);
                 }
                 else if (encounterProb < 20)
                 {
-                    Console.WriteLine("촌장님을 만나서 심부름을 했다.");
+                    Manager.HeaderText = "촌장님을 만나서 심부름을 했다.";
                     player.UpdateGold(2000);
                 }
                 else if (encounterProb < 40)
                 {
-                    Console.WriteLine("길 읽은 사람을 안내해주었다.");
+                    Manager.HeaderText = "길 읽은 사람을 안내해주었다.";
                     player.UpdateGold(1000);
                 }
                 else if (encounterProb < 70)
                 {
-                    Console.WriteLine("마을 주민과 인사를 나눴다. 선물을 받았다.");
+                    Manager.HeaderText = "마을 주민과 인사를 나눴다. 선물을 받았다.";
                     player.UpdateGold(500);
                 }
                 else
                 {
-                    Console.WriteLine("아무 일도 일어나지 않았다");
+                    Manager.HeaderText = "아무 일도 일어나지 않았다";
                 }
             }
         }
@@ -116,11 +116,11 @@ namespace TEXT_RPG.Scenes
                 switch (encounterProb)
                 {
                     case 0:
-                        Console.WriteLine("몬스터 조우! 골드 500 획득");
+                        Manager.HeaderText = "몬스터 조우! 골드 500 획득";
                         player.UpdateGold(500);
                         break;
                     case 1:
-                        Console.WriteLine("아무 일도 일어나지 않았다");
+                        Manager.HeaderText = "아무 일도 일어나지 않았다";
                         break;
                     default:
                         break;

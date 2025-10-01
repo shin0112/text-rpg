@@ -23,7 +23,7 @@
             }
             else
             {
-                Console.WriteLine("스테미나가 부족합니다.");
+                GameManager.Instance.HeaderText = "스테미나가 부족합니다.";
                 return false;
             }
         }

@@ -17,6 +17,8 @@ namespace TEXT_RPG
             while (true)
             {
                 Console.Clear();
+                UIHelper.WriteHeader();
+                GameManager.Instance.ResetHeaderText();
                 GameManager.Instance.CurrentScene.Show();
             }
         }

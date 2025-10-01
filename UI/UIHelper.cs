@@ -4,12 +4,13 @@ namespace TEXT_RPG.UI
 {
     internal class UIHelper
     {
-        public static void Header(String text)
+        public static void WriteHeader()
         {
-            Console.WriteLine(text);
+            Console.WriteLine(GameManager.Instance.HeaderText);
             Console.WriteLine();
             Console.WriteLine();
-
+            Console.WriteLine("=============================");
+            Console.WriteLine();
         }
 
         public static void SetInitDesign()
@@ -49,11 +50,6 @@ namespace TEXT_RPG.UI
             //if (type == SceneType.Start) { return; }
 
             WriteExitOption();
-        }
-
-        public static void WarnBadInput()
-        {
-            Console.WriteLine("잘못된 입력입니다.");
         }
 
         public static string GetPaddedString(string text, int totalWidth)
