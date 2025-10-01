@@ -23,22 +23,19 @@ namespace TEXT_RPG.UI
             Console.WriteLine($"Gold : {player.Gold} G");
         }
 
-        public static void ShowInventory(SceneType showType, List<Item> items)
+        public static void ShowInventoryHeader(string title)
         {
-            if (showType == SceneType.Inventory)
-            {
-                UIHelper.WriteTitle("인벤토리");
-            }
-            else
-            {
-                UIHelper.WriteTitle("인벤토리 - 장착 관리");
-            }
+            UIHelper.WriteTitle(title);
             Console.WriteLine("보유 중인 아이템을 관리할 수 있습니다.\n");
+        }
+
+        public static void ShowInventory(List<Item> items, bool numbered = false)
+        {
             Console.WriteLine("[아이템 목록]");
             for (int i = 0; i < items.Count; i++)
             {
                 Console.Write("- ");
-                if (showType == SceneType.InventoryManagement)
+                if (numbered)
                 {
                     Console.Write($"{i + 1} ");
                 }

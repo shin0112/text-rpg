@@ -6,7 +6,7 @@ namespace TEXT_RPG.Scenes.Inventory
     {
         protected void ShowInventoryTitle()
         {
-            PlayerUI.ShowInventorytitle(Title);
+            PlayerUI.ShowInventoryHeader(Title);
         }
     }
 }
