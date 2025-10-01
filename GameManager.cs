@@ -5,7 +5,8 @@ namespace TEXT_RPG
 {
     internal class GameManager
     {
-        public static GameManager Instance => new();
+        private static GameManager _instance;
+        public static GameManager Instance = _instance ??= new();
 
         public Player Player { get; }
         public Shop Shop { get; }
