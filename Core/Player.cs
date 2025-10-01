@@ -1,6 +1,4 @@
-﻿using static TEXT_RPG.Program;
-
-namespace TEXT_RPG.Core
+﻿namespace TEXT_RPG.Core
 {
     internal class Player
     {
