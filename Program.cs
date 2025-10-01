@@ -1,4 +1,5 @@
 ﻿using TEXT_RPG.Core;
+using TEXT_RPG.Scenes;
 using TEXT_RPG.UI;
 
 namespace TEXT_RPG
@@ -31,7 +32,7 @@ namespace TEXT_RPG
                 Console.WriteLine("이곳에서 던전으로 들어가기 전 활동을 할 수 있습니다.\n");
                 UIHelper.WriteOptions(SceneType.Start, sceneSelections[SceneType.Start]);
 
-                select = GameManager.Instance.SelectAct(SceneType.Start, player, shop, sceneSelections);
+                select = GameManager.Instance.SelectAct(SceneType.Start);
                 Console.Clear();
 
                 switch (select)
