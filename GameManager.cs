@@ -1,4 +1,7 @@
 ﻿using TEXT_RPG.Core;
+using TEXT_RPG.Scenes;
+using TEXT_RPG.Scenes.Inventory;
+using TEXT_RPG.Scenes.Shop;
 using TEXT_RPG.UI;
 
 namespace TEXT_RPG
@@ -10,13 +13,26 @@ namespace TEXT_RPG
 
         public Player Player { get; }
         public Shop Shop { get; }
-        public Dictionary<SceneType, string[]> Scenes { get; }
+        public Scene CurrentScene { get; private set; }
+        public Dictionary<SceneType, string[]> ScenesSelections { get; }
+        public Dictionary<SceneType, Scene> Scenes { get; }
 
         public GameManager()
         {
             Player = new("아무개", PlayerJob.마법사);
             Shop = new();
-            Scenes = new Dictionary<SceneType, string[]>
+            Scenes = new()
+            {
+                { SceneType.Start, new StartScene()},
+                { SceneType.Status,  new StatusScene()},
+                { SceneType.Inventory, new InventoryDefaultScene()},
+                { SceneType.InventoryManagement, new InventoryManagementScene()},
+                { SceneType.InventorySort, new InventorySortScene()},
+                { SceneType.Shop,  new ShopScene()},
+                { SceneType.ShopPurchase, new ShopPurchaseScene()}
+            };
+
+            ScenesSelections = new Dictionary<SceneType, string[]>
             {
                 { SceneType.Start, ["", "상태 보기", "인벤토리", "랜덤 모험", "마을 순찰하기", "훈련하기", "상점"] },
                 { SceneType.Status, ["나가기"] },
@@ -26,6 +42,11 @@ namespace TEXT_RPG
                 { SceneType.Shop, ["나가기", "아이템 구매"] },
                 { SceneType.ShopPurchase, ["나가기"] }
             };
+        }
+
+        public void ChangeScene(SceneType sceneType)
+        {
+            CurrentScene = Scenes[sceneType];
         }
 
         public int SelectAct(SceneType type)
@@ -54,7 +75,7 @@ namespace TEXT_RPG
             {
                 SceneType.InventoryManagement => Player.Items.Count + 1,
                 SceneType.ShopPurchase => Shop.ShopEntries.Count + 1,
-                _ => Scenes[type].Length
+                _ => ScenesSelections[type].Length
             };
         }
     }

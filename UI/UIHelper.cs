@@ -1,4 +1,6 @@
-﻿namespace TEXT_RPG.UI
+﻿using TEXT_RPG.Scenes;
+
+namespace TEXT_RPG.UI
 {
     internal class UIHelper
     {
@@ -36,14 +38,15 @@
             SetInitDesign();
         }
 
-        public static void WriteOptions(SceneType type, string[] selections)
+        public static void WriteOptions()
         {
-            for (int i = 1; i < selections.Length; i++)
+            Scene scene = GameManager.Instance.CurrentScene;
+            for (int i = 1; i < scene.Options.Length; i++)
             {
-                WriteOption($"{i}. {selections[i]}");
+                WriteOption($"{i}. {scene.Options[i]}");
             }
 
-            if (type == SceneType.Start) { return; }
+            //if (type == SceneType.Start) { return; }
 
             WriteExitOption();
         }

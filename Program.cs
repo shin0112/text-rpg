@@ -1,5 +1,7 @@
 ﻿using TEXT_RPG.Core;
 using TEXT_RPG.Scenes;
+using TEXT_RPG.Scenes.Inventory;
+using TEXT_RPG.Scenes.Shop;
 using TEXT_RPG.UI;
 
 namespace TEXT_RPG
@@ -12,7 +14,7 @@ namespace TEXT_RPG
     {
         // scene
         public static StatusScene statusScene = new StatusScene();
-        public static InventoryScene inventoryScene = new InventoryScene();
+        public static InventoryDefaultScene inventoryScene = new InventoryDefaultScene();
         public static ShopScene shopScene = new ShopScene();
 
         static void Main(string[] args)
@@ -20,7 +22,7 @@ namespace TEXT_RPG
             ArgumentNullException.ThrowIfNull(args);
             Player player = GameManager.Instance.Player;
             Shop shop = GameManager.Instance.Shop;
-            var sceneSelections = GameManager.Instance.Scenes;
+            var sceneSelections = GameManager.Instance.ScenesSelections;
 
             UIHelper.SetInitDesign();
             int select;
@@ -30,7 +32,7 @@ namespace TEXT_RPG
             {
                 Console.WriteLine("스파르타 마을에 오신 여러분 환영합니다.");
                 Console.WriteLine("이곳에서 던전으로 들어가기 전 활동을 할 수 있습니다.\n");
-                UIHelper.WriteOptions(SceneType.Start, sceneSelections[SceneType.Start]);
+                UIHelper.WriteOptions();
 
                 select = GameManager.Instance.SelectAct(SceneType.Start);
                 Console.Clear();
