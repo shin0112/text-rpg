@@ -1,25 +1,21 @@
 ﻿namespace TEXT_RPG.Scenes.Inventory
 {
-    internal class InventoryManagementScene : Scene
+    internal class InventoryManagementScene : InventorySceneBase
     {
         protected override string Title => "인벤토리 - 장착 관리";
         public override string[] Options => ["나가기"];
+        public override byte SelectionCount => (byte)(Options.Length + Manager.Player.Items.Count);
 
         protected override void HandleInput(int select)
         {
-            throw new NotImplementedException();
-        }
-
-        public override void Show()
-        {
-            int select;
-            UI.PlayerUI.ShowPlayerInfo();
-            UI.UIHelper.WriteOptions();
-            select = Manager.SelectAct(SceneType.Status);
             if (select == 0)
             {
-                Console.Clear();
-                return;
+                Manager.ChangeScene(SceneType.Inventory);
+                ToggleInventoryNumbered();
+            }
+            else if (0 < select && select <= Manager.Player.Items.Count)
+            {
+                Manager.Player.ToggleEquip(Manager.Player.Items[select - 1]);
             }
         }
     }

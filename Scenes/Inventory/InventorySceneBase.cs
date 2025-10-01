@@ -8,5 +8,16 @@ namespace TEXT_RPG.Scenes.Inventory
         {
             PlayerUI.ShowInventoryHeader(Title);
         }
+
+        public override void Show()
+        {
+            ShowInventoryTitle();
+            PlayerUI.ShowInventory(Manager.Player.Items, Manager.InventoryNumbered);
+            UIHelper.WriteOptions();
+            int select = Manager.SelectAct();
+            HandleInput(select);
+        }
+
+        public void ToggleInventoryNumbered() => Manager.InventoryNumbered = !Manager.InventoryNumbered;
     }
 }
