@@ -13,7 +13,7 @@ namespace TEXT_RPG.Scenes
             while (true)
             {
                 Console.Clear();
-                UI.ShopUI.ShowShop();
+                UI.ShopUI.ShowShop(type);
                 UI.UIHelper.WriteOptions(type, Manager.Scenes[type]);
                 select = Manager.SelectAct(type);
 
