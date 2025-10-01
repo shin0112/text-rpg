@@ -16,7 +16,8 @@ namespace TEXT_RPG
         public Scene CurrentScene { get; private set; }
         public Dictionary<SceneType, string[]> ScenesSelections { get; }
         public Dictionary<SceneType, Scene> Scenes { get; }
-        public bool InventoryNumbered { get; set; }
+        public bool InventoryNumbered { get; set; } = false;
+        public bool ShopNumbered { get; set; } = false;
 
         public GameManager()
         {

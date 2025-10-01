@@ -2,16 +2,9 @@
 {
     internal class ShopUI
     {
-        public static void ShowShop(SceneType showType)
+        public static void ShowShop(string title)
         {
-            if (showType == SceneType.Shop)
-            {
-                UIHelper.WriteTitle("상점");
-            }
-            else
-            {
-                UIHelper.WriteTitle("상점 - 아이템 구매");
-            }
+            UIHelper.WriteTitle(title);
             Console.WriteLine("필요한 아이템을 필요한 아이템을 얻을 수 있는 상점입니다.\n");
 
             Console.WriteLine("[보유 골드]");
@@ -23,7 +16,7 @@
                 var shopEntry = GameManager.Instance.Shop.ShopEntries[i];
 
                 Console.Write("- ");
-                if (showType == SceneType.ShopPurchase)
+                if (GameManager.Instance.ShopNumbered)
                 {
                     Console.Write($"{i + 1} ");
                 }

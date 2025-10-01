@@ -1,44 +1,24 @@
 ﻿namespace TEXT_RPG.Scenes.Shop
 {
-    internal class ShopScene : Scene
+    internal class ShopScene : ShopSceneBase
     {
         protected override string Title => "상점";
         public override string[] Options => ["나가기", "아이템 구매"];
 
         protected override void HandleInput(int select)
         {
-            throw new NotImplementedException();
-        }
-
-        public override void Show()
-        {
-            int select;
-            SceneType type = SceneType.Shop;
-            bool isExit = false;
-
-            while (true)
+            switch (select)
             {
-                Console.Clear();
-                UI.ShopUI.ShowShop(type);
-                UI.UIHelper.WriteOptions();
-                select = Manager.SelectAct();
-
-                switch (type)
-                {
-                    case SceneType.Shop:
-                        isExit = ShopDefault(select, ref type);
-                        break;
-                    case SceneType.ShopPurchase: // 아이템 구매
-                        ShopPurchase(select, ref type);
-                        break;
-                    default:
-                        break;
-                }
-
-                if (isExit) break;
+                case 0: // 시작
+                    Manager.ChangeScene(SceneType.Start);
+                    break;
+                case 1: // 아이템 구매
+                    Manager.ChangeScene(SceneType.ShopPurchase);
+                    break;
+                default:
+                    break;
             }
         }
-
         private void ShopPurchase(int select, ref SceneType type)
         {
             if (select == 0) // 나가기
