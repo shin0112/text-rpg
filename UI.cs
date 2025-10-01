@@ -15,11 +15,11 @@
                     Console.WriteLine($"{player.Gold} G\n");
 
                     Console.WriteLine("[아이템 목록]");
-                    foreach ((Item, bool) item in shop.Items)
+                    foreach (ShopEntry shopEntry in shop.ShopEntries)
                     {
                         Console.Write("- ");
-                        ItemUI.ShowItemInfo(item.Item1);
-                        Console.Write($" | {(item.Item2 ? "구매완료" : item.Item1.Price + " G")}");
+                        ItemUI.ShowItemInfo(shopEntry.Item);
+                        Console.Write($" | {(shopEntry.IsPurchased ? "구매완료" : shopEntry.Item.Price + " G")}");
                         Console.WriteLine();
                     }
                     Console.WriteLine();

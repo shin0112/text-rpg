@@ -218,9 +218,9 @@
                 Console.Clear();
                 type = SceneType.Shop;
             }
-            else if (0 < select && select <= shop.Items.Count) // 구매
+            else if (0 < select && select <= shop.ShopEntries.Count) // 구매
             {
-                Shop.PurchaseItem(select - 1); // 실제 데이터 idx는 하나 더 작음
+                Shop.PurchaseItem(shop.ShopEntries[select - 1]); // 실제 데이터 idx는 하나 더 작음
             }
         }
 
@@ -307,7 +307,7 @@
             return type switch
             {
                 SceneType.InventoryManagement => player.Items.Count + 1,
-                SceneType.ShopPurchase => shop.Items.Count + 1,
+                SceneType.ShopPurchase => shop.ShopEntries.Count + 1,
                 _ => sceneSelections[type].Length
             };
         }
@@ -470,9 +470,26 @@
             }
         }
 
+        public class ShopEntry
+        {
+            public Item Item { get; private set; }
+            public bool IsPurchased { get; private set; }
+
+            public ShopEntry(Item item)
+            {
+                Item = item;
+                IsPurchased = Item.Price == 0;
+            }
+
+            public void TogglePurchased()
+            {
+                IsPurchased |= !IsPurchased;
+            }
+        }
+
         public class Shop
         {
-            public List<(Item, bool)> Items { get; private set; }
+            public List<ShopEntry> ShopEntries { get; private set; }
 
             public Shop()
             {
@@ -486,10 +503,11 @@
                     new("스파르타의 창", ItemType.Weapon, 7, "스파르타의 전사들이 사용했다는 전설의 창입니다.", 0)
                 };
 
-                Items = new();
-                for (int i = 0; i < items.Count; i++)
+                ShopEntries = new();
+                foreach (Item item in items)
                 {
-                    Items.Add((items[i], items[i].Price == 0));
+                    ShopEntries.Add(new ShopEntry(item));
+                }
                 }
             }
 
