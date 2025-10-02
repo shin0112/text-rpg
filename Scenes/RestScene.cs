@@ -15,7 +15,17 @@ namespace TEXT_RPG.Scenes
             }
             else
             {
-                Manager.Player.AddGold(-500);
+                if (Manager.Player.Gold < 500)
+                {
+                    Manager.HeaderText = "Gold가 부족합니다.";
+                }
+                else
+                {
+                    Manager.Player.AddGold(-500);
+                    Manager.Player.AddStamina(20);
+                    Manager.Player.AddHp(100);
+                    Manager.HeaderText = "휴식을 완료했습니다.";
+                }
             }
         }
 

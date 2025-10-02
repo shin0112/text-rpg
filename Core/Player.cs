@@ -33,7 +33,24 @@
 
         public void AddGold(int gold) => Gold += gold;
         public void AddExp(int exp) => Exp += exp;
-        public void AddHp(int hp) => Hp += hp;
+
+        public void AddHp(int hp)
+        {
+            Hp += hp;
+            if (Hp > 100)
+            {
+                Hp = 100;
+            }
+        }
+
+        public void AddStamina(int stamina)
+        {
+            Stamina += stamina;
+            if (Stamina > 100)
+            {
+                Stamina = 100;
+            }
+        }
 
         public void SortItems(byte num)
         {
