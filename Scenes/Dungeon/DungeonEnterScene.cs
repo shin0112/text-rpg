@@ -34,14 +34,13 @@ namespace TEXT_RPG.Scenes.Dungeon
 
             // 결과 저장 변수
             int hpLost = 0, rewardGold = 0, rewardExp = 0;
+            bool isSuccess = true;
 
             // 방어력 계산
-            if (defGap > 0) // 방어력 미달
+            if (defGap > 0 && random.Next(0, 100) < 40) // 방어력 미달
             {
-                if (random.Next(0, 100) < 40)
-                {
-                    hpLost = player.Hp / 2;
-                }
+                hpLost = player.Hp / 2;
+                isSuccess = false;
             }
             else // 방어력 충족
             {
@@ -66,7 +65,8 @@ namespace TEXT_RPG.Scenes.Dungeon
                 player.Exp,
                 afterHp,
                 afterGold,
-                afterExp
+                afterExp,
+                isSuccess
             );
 
             // 플레이어 정보 갱신

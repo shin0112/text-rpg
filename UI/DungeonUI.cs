@@ -25,8 +25,16 @@ namespace TEXT_RPG.UI
             DungeonResultDto dto = GameManager.Instance.LastDungeonResult!;
 
             UIHelper.WriteTitle(title);
-            Console.WriteLine("축하합니다!!");
-            Console.WriteLine($"{dto.Level} 던전을 클리어 하였습니다.\n");
+            if (dto.IsSuccess)
+            {
+                Console.WriteLine("축하합니다!!");
+                Console.WriteLine($"{dto.Level} 던전을 클리어 했습니다.\n");
+            }
+            else
+            {
+                Console.WriteLine("아앗...");
+                Console.WriteLine($"{dto.Level} 던전을 클리어하지 못했습니다.\n");
+            }
 
             Console.WriteLine("[탐험 결과]");
             Console.WriteLine($"체력 {dto.BeforeHp} -> {dto.AfterHp}");
