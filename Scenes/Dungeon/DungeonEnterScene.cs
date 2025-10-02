@@ -30,7 +30,7 @@ namespace TEXT_RPG.Scenes.Dungeon
             Player player = Manager.Player;
             Random random = new();
 
-            int defGap = dungeonInfo.RequiredDef - player.DefensePower;
+            int defGap = (int)(dungeonInfo.RequiredDef - player.DefensePower);
 
             // 결과 저장 변수
             int hpLost = 0, rewardGold = 0, rewardExp = 0;
@@ -48,7 +48,7 @@ namespace TEXT_RPG.Scenes.Dungeon
                 hpLost += random.Next(20 + defGap, 36 + defGap);
 
                 // 공격력 계산
-                int attackBonus = random.Next(player.AttackPower, player.AttackPower * 2 + 1);
+                int attackBonus = random.Next((int)player.AttackPower, (int)player.AttackPower * 2 + 1);
                 rewardGold = (int)(dungeonInfo.RewardGold * (1 + attackBonus * 0.01));
                 rewardExp = (int)(dungeonInfo.RewardExp * (1 + attackBonus * 0.01));
             }

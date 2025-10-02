@@ -7,8 +7,8 @@ namespace TEXT_RPG.Core
         public int Level { get; private set; }
         public string Name { get; private set; }
         public PlayerJob Job { get; private set; }
-        public int AttackPower { get; private set; }
-        public int DefensePower { get; private set; }
+        public float AttackPower { get; private set; }
+        public float DefensePower { get; private set; }
         public int Hp { get; private set; }
         public int Stamina { get; private set; }
         public int Exp { get; private set; }
