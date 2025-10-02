@@ -4,7 +4,7 @@ namespace TEXT_RPG
 {
     enum PlayerJob { 전사, 마법사, 궁수 }
     enum ItemType { Weapon, Armor }
-    enum SceneType { Start, Status, Inventory, InventoryManagement, InventorySort, Shop, ShopPurchase }
+    enum SceneType { Start, Status, Inventory, InventoryManagement, InventorySort, Shop, ShopPurchase, ShopSell }
 
     internal partial class Program
     {

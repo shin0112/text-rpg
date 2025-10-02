@@ -30,7 +30,8 @@ namespace TEXT_RPG
                 { SceneType.InventoryManagement, new InventoryManagementScene()},
                 { SceneType.InventorySort, new InventorySortScene()},
                 { SceneType.Shop,  new ShopScene()},
-                { SceneType.ShopPurchase, new ShopPurchaseScene()}
+                { SceneType.ShopPurchase, new ShopPurchaseScene()},
+                { SceneType.ShopSell, new ShopSellScene() },
             };
             CurrentScene = Scenes[SceneType.Start];
         }
