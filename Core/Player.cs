@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using TEXT_RPG.Data;
+﻿using TEXT_RPG.Data;
 using TEXT_RPG.Manager;
 
 namespace TEXT_RPG.Core
@@ -120,27 +119,9 @@ namespace TEXT_RPG.Core
             Items =
             [
                 new Item("연습용 창", ItemType.Weapon, 3, "검보다는 그래도 창이 다루기 쉽죠."),
-                    new Item("무쇠갑옷", ItemType.Armor, 5, "무쇠로 만들어져 튼튼한 갑옷입니다."),
-                    new Item("낡은 검", ItemType.Weapon, 2, "쉽게 볼 수 있는 낡은 검 입니다."),
-                ];
-        }
-
-        [JsonConstructor]
-        public Player(int level, string name, PlayerJob job, float attackPower, float defensePower,
-              int hp, int stamina, int exp, int gold,
-              Dictionary<ItemType, Item?> equipped, List<Item> items)
-        {
-            Level = level;
-            Name = name;
-            Job = job;
-            AttackPower = attackPower;
-            DefensePower = defensePower;
-            Hp = hp;
-            Stamina = stamina;
-            Exp = exp;
-            Gold = gold;
-            Equipped = equipped ?? [];
-            Items = items ?? [];
+                new Item("무쇠갑옷", ItemType.Armor, 5, "무쇠로 만들어져 튼튼한 갑옷입니다."),
+                new Item("낡은 검", ItemType.Weapon, 2, "쉽게 볼 수 있는 낡은 검 입니다."),
+            ];
         }
 
         // todo: item 전체가 아니라 equipped에서 계산하도록 로직 수정
