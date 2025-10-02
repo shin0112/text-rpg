@@ -22,7 +22,7 @@ namespace TEXT_RPG.Scenes.Dungeon
 
             UIHelper.WriteTitle(Title);
             Console.WriteLine("축하합니다!!");
-            Console.WriteLine($"{dto.Level} 던전을 클리어 하였습니다.");
+            Console.WriteLine($"{dto.Level} 던전을 클리어 하였습니다.\n");
 
             Console.WriteLine("[탐험 결과]");
             Console.WriteLine($"체력 {dto.BeforeHp} -> {dto.AfterHp}");
