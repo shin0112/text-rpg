@@ -12,7 +12,7 @@ namespace TEXT_RPG.Scenes.Inventory
         public override void Show()
         {
             ShowInventoryTitle();
-            PlayerUI.ShowInventory(Manager.Player.Items, Manager.InventoryNumbered);
+            PlayerUI.ShowInventory(Manager.InventoryNumbered);
             UIHelper.WriteOptions();
             int select = Manager.SelectAct();
             HandleInput(select);

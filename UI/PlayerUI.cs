@@ -29,8 +29,10 @@ namespace TEXT_RPG.UI
             Console.WriteLine("보유 중인 아이템을 관리할 수 있습니다.\n");
         }
 
-        public static void ShowInventory(List<Item> items, bool numbered = false)
+        public static void ShowInventory(bool numbered = false)
         {
+            List<Item> items = GameManager.Instance.Player.Items;
+
             Console.WriteLine("[아이템 목록]");
             for (int i = 0; i < items.Count; i++)
             {
