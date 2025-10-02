@@ -6,9 +6,9 @@ namespace TEXT_RPG.Repository
     {
         public static readonly Dictionary<DungeonLevel, DungeonInfo> Dungeons = new()
         {
-            { DungeonLevel.Easy, new DungeonInfo(5, 0, 1000, 50) },
-            { DungeonLevel.Normal, new DungeonInfo(11, 0, 1700, 100) },
-            { DungeonLevel.Hard, new DungeonInfo(17, 0, 2500, 200) }
+            { DungeonLevel.쉬운, new DungeonInfo(5, 0, 1000, 50) },
+            { DungeonLevel.일반, new DungeonInfo(11, 0, 1700, 100) },
+            { DungeonLevel.어려운, new DungeonInfo(17, 0, 2500, 200) }
         };
     }
 }
