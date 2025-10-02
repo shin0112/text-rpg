@@ -35,7 +35,7 @@ namespace TEXT_RPG.Scenes.Dungeon
             int hpLost = 0, rewardGold = 0, rewardExp = 0;
 
             // 방어력 계산
-            if (defGap < 0) // 방어력 미달
+            if (defGap > 0) // 방어력 미달
             {
                 if (random.Next(0, 100) < 40)
                 {
@@ -48,8 +48,8 @@ namespace TEXT_RPG.Scenes.Dungeon
 
                 // 공격력 계산
                 int attackBonus = random.Next(player.AttackPower, player.AttackPower * 2 + 1);
-                rewardGold *= (1 + attackBonus / 100);
-                rewardExp *= (1 + attackBonus / 100);
+                rewardGold = (int)(dungeonInfo.RewardGold * (1 + attackBonus * 0.01));
+                rewardExp = (int)(dungeonInfo.RewardExp * (1 + attackBonus * 0.01));
             }
 
             // after
@@ -69,9 +69,9 @@ namespace TEXT_RPG.Scenes.Dungeon
             );
 
             // 플레이어 정보 갱신
-            player.UpdateHp(afterHp);
-            player.UpdateGold(afterGold);
-            player.UpdateExp(afterExp);
+            player.AddHp(-hpLost);
+            player.AddGold(rewardGold);
+            player.AddExp(rewardExp);
         }
     }
 }
