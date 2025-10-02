@@ -1,4 +1,6 @@
-﻿using TEXT_RPG.UI;
+﻿
+using TEXT_RPG.Data;
+using TEXT_RPG.UI;
 
 namespace TEXT_RPG.Scenes.Dungeon
 {

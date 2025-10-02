@@ -1,4 +1,6 @@
-﻿namespace TEXT_RPG.Core
+﻿using TEXT_RPG.Data;
+
+namespace TEXT_RPG.Core
 {
     internal class Player
     {
@@ -32,7 +34,10 @@
         internal void RemoveItem(Item item) => Items.Remove(item);
 
         public void AddGold(int gold) => Gold += gold;
-        public void AddExp(int exp) => Exp += exp;
+        public void AddExp(int exp)
+        {
+            Exp += exp;
+        }
 
         public void AddHp(int hp)
         {

@@ -1,4 +1,6 @@
-﻿namespace TEXT_RPG.Core
+﻿using TEXT_RPG.Data;
+
+namespace TEXT_RPG.Core
 {
     internal class Shop
     {

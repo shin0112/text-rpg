@@ -1,5 +1,6 @@
 ﻿using TEXT_RPG.Core;
 using TEXT_RPG.Core.DTO;
+using TEXT_RPG.Data;
 using TEXT_RPG.Scenes;
 using TEXT_RPG.Scenes.Dungeon;
 using TEXT_RPG.Scenes.Inventory;

@@ -2,11 +2,6 @@
 
 namespace TEXT_RPG
 {
-    enum PlayerJob { 전사, 마법사, 궁수 }
-    enum ItemType { Weapon, Armor }
-    enum SceneType { Start, Status, Inventory, InventoryManagement, InventorySort, Shop, ShopPurchase, ShopSell, Dungeon, DungeonClear, Rest }
-    enum DungeonLevel { 쉬운 = 1, 일반 = 2, 어려운 = 3 }
-
     internal partial class Program
     {
         static void Main(string[] args)

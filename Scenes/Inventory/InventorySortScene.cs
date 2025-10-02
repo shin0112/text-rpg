@@ -1,4 +1,6 @@
-﻿namespace TEXT_RPG.Scenes.Inventory
+﻿using TEXT_RPG.Data;
+
+namespace TEXT_RPG.Scenes.Inventory
 {
     internal class InventorySortScene : InventorySceneBase
     {

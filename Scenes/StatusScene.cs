@@ -1,4 +1,6 @@
-﻿namespace TEXT_RPG.Scenes
+﻿using TEXT_RPG.Data;
+
+namespace TEXT_RPG.Scenes
 {
     internal class StatusScene : Scene
     {
