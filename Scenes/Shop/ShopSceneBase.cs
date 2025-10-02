@@ -13,5 +13,6 @@ namespace TEXT_RPG.Scenes.Shop
         }
 
         public void ToggleShopNumbered() => Manager.ShopNumbered = !Manager.ShopNumbered;
+        public void ToggleInventoryNumbered() => Manager.InventoryNumbered = !Manager.InventoryNumbered;
     }
 }
