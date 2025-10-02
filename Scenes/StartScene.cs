@@ -1,5 +1,6 @@
 ﻿using TEXT_RPG.Core;
 using TEXT_RPG.Data;
+using TEXT_RPG.Manager;
 using TEXT_RPG.UI;
 
 namespace TEXT_RPG.Scenes
@@ -49,7 +50,7 @@ namespace TEXT_RPG.Scenes
                     Manager.ChangeScene(SceneType.Rest);
                     break;
                 default:
-                    Manager.WarnBadInput();
+                    DataManager.Instance.SaveData();
                     break;
             }
         }

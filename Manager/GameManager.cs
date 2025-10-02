@@ -14,8 +14,8 @@ namespace TEXT_RPG.Manager
         private static GameManager _instance;
         public static GameManager Instance = _instance ??= new();
 
-        public Player Player { get; }
-        public Shop Shop { get; }
+        public Player Player { get; set; }
+        public Shop Shop { get; set; }
         public Scene CurrentScene { get; private set; }
         public Dictionary<SceneType, Scene> Scenes { get; }
         public bool InventoryNumbered { get; set; } = false;
@@ -43,7 +43,6 @@ namespace TEXT_RPG.Manager
             };
             CurrentScene = Scenes[SceneType.Start];
         }
-
         public void ResetHeaderText() => HeaderText = "";
         public void WarnBadInput() => HeaderText = "잘못된 입력입니다.";
         public void ChangeScene(SceneType sceneType)
@@ -73,6 +72,8 @@ namespace TEXT_RPG.Manager
 
         public void Run()
         {
+            DataManager.Instance.LoadData();
+
             while (true)
             {
                 Console.Clear();

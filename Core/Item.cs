@@ -1,4 +1,5 @@
-﻿using TEXT_RPG.Data;
+﻿using Newtonsoft.Json;
+using TEXT_RPG.Data;
 
 namespace TEXT_RPG.Core
 {
@@ -29,6 +30,17 @@ namespace TEXT_RPG.Core
             Description = description;
             IsEquipped = false;
             Price = 0;
+        }
+
+        [JsonConstructor]
+        public Item(string name, ItemType type, int value, string description, int price, bool isEquipped)
+        {
+            Name = name;
+            Type = type;
+            Value = value;
+            Description = description;
+            Price = price;
+            IsEquipped = isEquipped;
         }
 
         public void ToggleEquip()
