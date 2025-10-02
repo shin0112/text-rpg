@@ -29,6 +29,7 @@
         }
 
         internal void GetItem(Item item) => Items.Add(item);
+        internal void RemoveItem(Item item) => Items.Remove(item);
 
         public void UpdateGold(int gold) => Gold += gold;
         public void UpdateExp(int exp) => Exp += exp;
