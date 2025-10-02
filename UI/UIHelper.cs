@@ -1,4 +1,5 @@
-﻿using TEXT_RPG.Scenes;
+﻿using TEXT_RPG.Manager;
+using TEXT_RPG.Scenes;
 
 namespace TEXT_RPG.UI
 {

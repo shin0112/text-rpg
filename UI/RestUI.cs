@@ -1,4 +1,6 @@
-﻿namespace TEXT_RPG.UI
+﻿using TEXT_RPG.Manager;
+
+namespace TEXT_RPG.UI
 {
     internal class RestUI
     {

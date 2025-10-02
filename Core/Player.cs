@@ -1,4 +1,5 @@
 ﻿using TEXT_RPG.Data;
+using TEXT_RPG.Manager;
 
 namespace TEXT_RPG.Core
 {

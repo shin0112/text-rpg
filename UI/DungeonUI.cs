@@ -1,5 +1,6 @@
 ﻿using TEXT_RPG.Core.DTO;
 using TEXT_RPG.Data;
+using TEXT_RPG.Manager;
 using TEXT_RPG.Repository;
 using TEXT_RPG.Scenes;
 

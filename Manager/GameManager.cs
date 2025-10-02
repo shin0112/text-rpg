@@ -7,7 +7,7 @@ using TEXT_RPG.Scenes.Inventory;
 using TEXT_RPG.Scenes.Shop;
 using TEXT_RPG.UI;
 
-namespace TEXT_RPG
+namespace TEXT_RPG.Manager
 {
     internal class GameManager
     {

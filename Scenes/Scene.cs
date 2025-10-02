@@ -1,4 +1,6 @@
-﻿namespace TEXT_RPG.Scenes
+﻿using TEXT_RPG.Manager;
+
+namespace TEXT_RPG.Scenes
 {
     internal abstract class Scene
     {
