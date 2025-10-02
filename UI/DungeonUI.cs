@@ -1,4 +1,5 @@
-﻿using TEXT_RPG.Repository;
+﻿using TEXT_RPG.Core.DTO;
+using TEXT_RPG.Repository;
 using TEXT_RPG.Scenes;
 
 namespace TEXT_RPG.UI
@@ -15,6 +16,19 @@ namespace TEXT_RPG.UI
             }
 
             UIHelper.WriteExitOption();
+        }
+
+        public static void ShowClearInfo(string title)
+        {
+            DungeonResultDto dto = GameManager.Instance.LastDungeonResult!;
+
+            UIHelper.WriteTitle(title);
+            Console.WriteLine("축하합니다!!");
+            Console.WriteLine($"{dto.Level} 던전을 클리어 하였습니다.\n");
+
+            Console.WriteLine("[탐험 결과]");
+            Console.WriteLine($"체력 {dto.BeforeHp} -> {dto.AfterHp}");
+            Console.WriteLine($"Gold {dto.BeforeGold} G -> {dto.AfterGold} G");
         }
     }
 }
