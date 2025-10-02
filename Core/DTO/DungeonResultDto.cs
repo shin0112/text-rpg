@@ -15,7 +15,7 @@
 
         public bool IsSuccess { get; set; }
 
-        public DungeonResultDTO(
+        public DungeonResultDto(
             DungeonLevel level,
             int beforeHp,
             int beforeGold,
