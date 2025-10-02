@@ -1,5 +1,7 @@
 ﻿using TEXT_RPG.Core;
+using TEXT_RPG.Core.DTO;
 using TEXT_RPG.Scenes;
+using TEXT_RPG.Scenes.Dungeon;
 using TEXT_RPG.Scenes.Inventory;
 using TEXT_RPG.Scenes.Shop;
 
@@ -17,6 +19,7 @@ namespace TEXT_RPG
         public bool InventoryNumbered { get; set; } = false;
         public bool ShopNumbered { get; set; } = false;
         public string HeaderText { get; set; } = "";
+        public DungeonResultDto? LastDungeonResult { get; set; }
 
         public GameManager()
         {
@@ -32,6 +35,8 @@ namespace TEXT_RPG
                 { SceneType.Shop,  new ShopScene()},
                 { SceneType.ShopPurchase, new ShopPurchaseScene()},
                 { SceneType.ShopSell, new ShopSellScene() },
+                { SceneType.Dungeon, new DungeonEnterScene() },
+                { SceneType.DungeonClear, new DungeonClearScene() }
             };
             CurrentScene = Scenes[SceneType.Start];
         }
