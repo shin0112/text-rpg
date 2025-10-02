@@ -37,6 +37,18 @@ namespace TEXT_RPG.Core
         public void AddExp(int exp)
         {
             Exp += exp;
+            if (Exp > LevelRepository.RequiredExp[Level])
+            {
+                LevelUp();
+            }
+        }
+
+        private void LevelUp()
+        {
+            Exp -= LevelRepository.RequiredExp[Level];
+            Level++;
+            AttackPower += 0.5f;
+            DefensePower += 1f;
         }
 
         public void AddHp(int hp)
