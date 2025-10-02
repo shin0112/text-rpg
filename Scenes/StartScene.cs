@@ -6,7 +6,7 @@ namespace TEXT_RPG.Scenes
     internal class StartScene : Scene
     {
         protected override string Title => "";
-        public override string[] Options => ["", "상태 보기", "인벤토리", "랜덤 모험", "마을 순찰하기", "훈련하기", "상점", "던전 입장"];
+        public override string[] Options => ["", "상태 보기", "인벤토리", "랜덤 모험", "마을 순찰하기", "훈련하기", "상점", "던전 입장", "휴식하기"];
 
         public override void Show()
         {
@@ -43,6 +43,9 @@ namespace TEXT_RPG.Scenes
                     break;
                 case 7:
                     Manager.ChangeScene(SceneType.Dungeon);
+                    break;
+                case 8:
+                    Manager.ChangeScene(SceneType.Rest);
                     break;
                 default:
                     Manager.WarnBadInput();
