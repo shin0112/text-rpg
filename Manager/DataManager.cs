@@ -42,11 +42,12 @@ namespace TEXT_RPG.Manager
                 if (File.Exists(FILE_PATH + SHOP_FILE_NAME))
                 {
                     string shopData = File.ReadAllText(FILE_PATH + SHOP_FILE_NAME);
-                    manager.Shop = JsonConvert.DeserializeObject<Shop>(shopData) ?? new();
+                    manager.Shop = JsonConvert.DeserializeObject<Shop>(shopData)!;
                 }
                 else
                 {
-                    manager.Shop = new();
+                    manager.Shop = new Shop();
+                    manager.Shop.InitializeDefaultItems();
                 }
             }
             catch (Exception ex)

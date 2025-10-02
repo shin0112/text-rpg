@@ -5,9 +5,9 @@ namespace TEXT_RPG.Core
 {
     internal class Shop
     {
-        public List<ShopEntry> ShopEntries { get; private set; }
+        public List<ShopEntry> ShopEntries { get; set; } = new();
 
-        public Shop()
+        public void InitializeDefaultItems()
         {
             // 상점 아이템 리스트
             var items = new List<Item> {
@@ -19,7 +19,7 @@ namespace TEXT_RPG.Core
                     new("스파르타의 창", ItemType.Weapon, 7, "스파르타의 전사들이 사용했다는 전설의 창입니다.", 0)
                 };
 
-            ShopEntries = new();
+            ShopEntries.Clear();
             foreach (Item item in items)
             {
                 ShopEntries.Add(new ShopEntry(item));
