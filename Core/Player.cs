@@ -33,6 +33,7 @@
 
         public void UpdateGold(int gold) => Gold += gold;
         public void UpdateExp(int exp) => Exp += exp;
+        public void UpdateHp(int hp) => Hp += hp;
 
         public void SortItems(byte num)
         {
