@@ -1,4 +1,6 @@
-﻿namespace TEXT_RPG.Scenes
+﻿using TEXT_RPG.UI;
+
+namespace TEXT_RPG.Scenes
 {
     internal class RestScene : Scene
     {
@@ -11,7 +13,9 @@
 
         public override void Show()
         {
-
+            RestUI.ShowRest(Title);
+            int select = Manager.SelectAct();
+            HandleInput(select);
         }
     }
 }
