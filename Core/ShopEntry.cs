@@ -5,10 +5,10 @@
         public Item Item { get; private set; }
         public bool IsPurchased { get; private set; }
 
-        public ShopEntry(Item item)
+        public ShopEntry(Item item, bool isPurchased = false)
         {
             Item = item;
-            IsPurchased = Item.Price == 0;
+            IsPurchased = isPurchased;
         }
 
         public void TogglePurchased()
