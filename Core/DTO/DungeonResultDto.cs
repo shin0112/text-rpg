@@ -2,15 +2,40 @@
 {
     internal class DungeonResultDto
     {
-        public int HpLost { get; set; }
-        public int RewardGold { get; set; }
-        public int RewardExp { get; set; }
+        public DungeonLevel Level { get; set; }
+        // Before
+        public int BeforeHp { get; set; }
+        public int BeforeGold { get; set; }
+        public int BeforeExp { get; set; }
 
-        public DungeonResultDto(int hpLost, int rewardGold, int rewardExp)
+        // After
+        public int AfterHp { get; set; }
+        public int AfterGold { get; set; }
+        public int AfterExp { get; set; }
+
+        public bool IsSuccess { get; set; }
+
+        public DungeonResultDTO(
+            DungeonLevel level,
+            int beforeHp,
+            int beforeGold,
+            int beforeExp,
+            int afterHp,
+            int afterGold,
+            int afterExp,
+            bool isSuccess = true)
         {
-            HpLost = hpLost;
-            RewardGold = rewardGold;
-            RewardExp = rewardExp;
+            Level = level;
+
+            BeforeHp = beforeHp;
+            BeforeGold = beforeGold;
+            BeforeExp = beforeExp;
+
+            AfterHp = afterHp;
+            AfterGold = afterGold;
+            AfterExp = afterExp;
+
+            IsSuccess = isSuccess;
         }
     }
 }
