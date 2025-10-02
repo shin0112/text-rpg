@@ -29,53 +29,49 @@ namespace TEXT_RPG.Scenes.Dungeon
             Player player = Manager.Player;
             Random random = new();
 
-            int defCost = dungeonInfo.RequiredDef - player.DefensePower;
+            int defGap = dungeonInfo.RequiredDef - player.DefensePower;
 
             // 결과 저장 변수
-            int hpCost = 0, rewardGold = 0, rewardExp = 0;
+            int hpLost = 0, rewardGold = 0, rewardExp = 0;
 
             // 방어력 계산
-            if (defCost < 0) // 방어력 미달
+            if (defGap < 0) // 방어력 미달
             {
                 if (random.Next(0, 100) < 40)
                 {
-                    hpCost = player.Hp / 2;
+                    hpLost = player.Hp / 2;
                 }
-                Manager.LastDungeonResult = new DungeonResultDto(
-                    level,
-                    player.Hp,
-                    player.Gold,
-                    player.Exp,
-                    player.Hp - hpCost,
-                    player.Gold + rewardGold,
-                    player.Exp + rewardExp
-                    );
-                player.UpdateHp(player.Hp - hpCost);
-                return;
             }
             else // 방어력 충족
             {
-                hpCost += random.Next(20 + defCost, 36 + defCost);
+                hpLost += random.Next(20 + defGap, 36 + defGap);
+
+                // 공격력 계산
+                int attackBonus = random.Next(player.AttackPower, player.AttackPower * 2 + 1);
+                rewardGold *= (1 + attackBonus / 100);
+                rewardExp *= (1 + attackBonus / 100);
             }
 
-            // 공격력 계산
-            int plusReward = random.Next(player.AttackPower, player.AttackPower * 2 + 1);
-            rewardGold *= (1 + plusReward / 100);
-            rewardExp *= (1 + plusReward / 100);
+            // after
+            int afterHp = Math.Max(0, player.Hp - hpLost);
+            int afterGold = player.Gold + rewardGold;
+            int afterExp = player.Exp + rewardExp;
 
             // 보상 지정
             Manager.LastDungeonResult = new DungeonResultDto(
-                    level,
-                    player.Hp,
-                    player.Gold,
-                    player.Exp,
-                    player.Hp - hpCost,
-                    player.Gold + rewardGold,
-                    player.Exp + rewardExp
-                    );
-            player.UpdateHp(player.Hp - hpCost);
-            player.UpdateGold(player.Gold + rewardGold);
-            player.UpdateExp(player.Exp + rewardExp);
+                level,
+                player.Hp,
+                player.Gold,
+                player.Exp,
+                afterHp,
+                afterGold,
+                afterExp
+            );
+
+            // 플레이어 정보 갱신
+            player.UpdateHp(afterHp);
+            player.UpdateGold(afterGold);
+            player.UpdateExp(afterExp);
         }
     }
 }
