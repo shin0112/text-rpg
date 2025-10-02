@@ -146,15 +146,14 @@ namespace TEXT_RPG.Core
         // todo: item 전체가 아니라 equipped에서 계산하도록 로직 수정
         public (int attackPower, int defensePower) CalculatePlusPower()
         {
-            int attackPower = 0, defensePower = 0;
-            foreach (Item item in Items)
-            {
-                if (!item.IsEquipped) continue;
-
-                if (item.Type == ItemType.Weapon) { attackPower += item.Value; }
-                else if (item.Type == ItemType.Armor) { defensePower += item.Value; }
-            }
+            int attackPower = GetItemValue(ItemType.Weapon);
+            int defensePower = GetItemValue(ItemType.Armor);
             return (attackPower, defensePower);
+        }
+
+        private int GetItemValue(ItemType type)
+        {
+            return Equipped[type] == null ? 0 : Equipped[type]!.Value;
         }
 
         public void ToggleEquip(Item item)
