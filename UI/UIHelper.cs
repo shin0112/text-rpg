@@ -35,7 +35,7 @@ namespace TEXT_RPG.UI
         public static void WriteExitOption()
         {
             Console.ForegroundColor = ConsoleColor.DarkGray;
-            Console.WriteLine("\n0. 나가기");
+            Console.WriteLine($"\n0. {GameManager.Instance.CurrentScene.Options[0]}");
             SetInitDesign();
         }
 
@@ -46,8 +46,6 @@ namespace TEXT_RPG.UI
             {
                 WriteOption($"{i}. {scene.Options[i]}");
             }
-
-            //if (type == SceneType.Start) { return; }
 
             WriteExitOption();
         }
