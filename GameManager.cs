@@ -5,6 +5,7 @@ using TEXT_RPG.Scenes;
 using TEXT_RPG.Scenes.Dungeon;
 using TEXT_RPG.Scenes.Inventory;
 using TEXT_RPG.Scenes.Shop;
+using TEXT_RPG.UI;
 
 namespace TEXT_RPG
 {
@@ -67,6 +68,17 @@ namespace TEXT_RPG
                 {
                     WarnBadInput();
                 }
+            }
+        }
+
+        public void Run()
+        {
+            while (true)
+            {
+                Console.Clear();
+                UIHelper.WriteHeader();
+                Instance.ResetHeaderText();
+                Instance.CurrentScene.Show();
             }
         }
     }

@@ -9,14 +9,7 @@ namespace TEXT_RPG
             ArgumentNullException.ThrowIfNull(args);
             UIHelper.SetInitDesign();
 
-            // run
-            while (true)
-            {
-                Console.Clear();
-                UIHelper.WriteHeader();
-                GameManager.Instance.ResetHeaderText();
-                GameManager.Instance.CurrentScene.Show();
-            }
+            GameManager.Instance.Run();
         }
     }
 }
