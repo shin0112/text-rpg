@@ -36,7 +36,8 @@ namespace TEXT_RPG
                 { SceneType.ShopPurchase, new ShopPurchaseScene() },
                 { SceneType.ShopSell, new ShopSellScene() },
                 { SceneType.Dungeon, new DungeonEnterScene() },
-                { SceneType.DungeonClear, new DungeonClearScene() }
+                { SceneType.DungeonClear, new DungeonClearScene() },
+                { SceneType.Rest, new RestScene() }
             };
             CurrentScene = Scenes[SceneType.Start];
         }
