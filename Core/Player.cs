@@ -90,6 +90,7 @@
                 ];
         }
 
+        // todo: item 전체가 아니라 equipped에서 계산하도록 로직 수정
         public (int attackPower, int defensePower) CalculatePlusPower()
         {
             int attackPower = 0, defensePower = 0;

@@ -27,13 +27,13 @@ namespace TEXT_RPG
             Shop = new();
             Scenes = new()
             {
-                { SceneType.Start, new StartScene()},
-                { SceneType.Status,  new StatusScene()},
-                { SceneType.Inventory, new InventoryDefaultScene()},
-                { SceneType.InventoryManagement, new InventoryManagementScene()},
-                { SceneType.InventorySort, new InventorySortScene()},
-                { SceneType.Shop,  new ShopScene()},
-                { SceneType.ShopPurchase, new ShopPurchaseScene()},
+                { SceneType.Start, new StartScene() },
+                { SceneType.Status,  new StatusScene() },
+                { SceneType.Inventory, new InventoryDefaultScene() },
+                { SceneType.InventoryManagement, new InventoryManagementScene() },
+                { SceneType.InventorySort, new InventorySortScene() },
+                { SceneType.Shop,  new ShopScene() },
+                { SceneType.ShopPurchase, new ShopPurchaseScene() },
                 { SceneType.ShopSell, new ShopSellScene() },
                 { SceneType.Dungeon, new DungeonEnterScene() },
                 { SceneType.DungeonClear, new DungeonClearScene() }
