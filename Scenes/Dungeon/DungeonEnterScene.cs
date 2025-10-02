@@ -41,7 +41,16 @@ namespace TEXT_RPG.Scenes.Dungeon
                 {
                     hpCost = player.Hp / 2;
                 }
-                Manager.LastDungeonResult = new DungeonResultDto(hpCost, rewardGold, rewardExp);
+                Manager.LastDungeonResult = new DungeonResultDto(
+                    level,
+                    player.Hp,
+                    player.Gold,
+                    player.Exp,
+                    player.Hp - hpCost,
+                    player.Gold + rewardGold,
+                    player.Exp + rewardExp
+                    );
+                player.UpdateHp(player.Hp - hpCost);
                 return;
             }
             else // 방어력 충족
@@ -55,7 +64,18 @@ namespace TEXT_RPG.Scenes.Dungeon
             rewardExp *= (1 + plusReward / 100);
 
             // 보상 지정
-            Manager.LastDungeonResult = new DungeonResultDto(hpCost, rewardGold, rewardExp);
+            Manager.LastDungeonResult = new DungeonResultDto(
+                    level,
+                    player.Hp,
+                    player.Gold,
+                    player.Exp,
+                    player.Hp - hpCost,
+                    player.Gold + rewardGold,
+                    player.Exp + rewardExp
+                    );
+            player.UpdateHp(player.Hp - hpCost);
+            player.UpdateGold(player.Gold + rewardGold);
+            player.UpdateExp(player.Exp + rewardExp);
         }
     }
 }
