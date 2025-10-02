@@ -13,7 +13,7 @@ namespace TEXT_RPG.Core
         public int Stamina { get; private set; }
         public int Exp { get; private set; }
         public int Gold { get; private set; }
-        private Dictionary<ItemType, Item?> equipped = [];
+        public Dictionary<ItemType, Item?> Equipped = [];
         public List<Item> Items { get; }
 
         public bool SpendStamina(int stamina)
@@ -112,7 +112,7 @@ namespace TEXT_RPG.Core
             Gold = 1500;
             foreach (ItemType type in Enum.GetValues(typeof(ItemType)))
             {
-                equipped[type] = null;
+                Equipped[type] = null;
             }
 
             // STEP 5
@@ -143,21 +143,21 @@ namespace TEXT_RPG.Core
             ItemType type = item.Type;
 
             // 착용 중인 장비 해제 
-            if (equipped[type] == item)
+            if (Equipped[type] == item)
             {
                 item.ToggleEquip();
-                equipped[type] = null;
+                Equipped[type] = null;
                 return;
             }
 
             // 다른 장비 해제
-            if (equipped[type] != null)
+            if (Equipped[type] != null)
             {
-                equipped[type]!.ToggleEquip();
+                Equipped[type]!.ToggleEquip();
             }
 
             // 새 장비 장착
-            equipped[type] = item;
+            Equipped[type] = item;
             item.ToggleEquip();
         }
     }
