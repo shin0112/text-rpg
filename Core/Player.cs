@@ -28,12 +28,12 @@
             }
         }
 
-        internal void GetItem(Item item) => Items.Add(item);
+        internal void AddItem(Item item) => Items.Add(item);
         internal void RemoveItem(Item item) => Items.Remove(item);
 
-        public void UpdateGold(int gold) => Gold += gold;
-        public void UpdateExp(int exp) => Exp += exp;
-        public void UpdateHp(int hp) => Hp += hp;
+        public void AddGold(int gold) => Gold += gold;
+        public void AddExp(int exp) => Exp += exp;
+        public void AddHp(int hp) => Hp += hp;
 
         public void SortItems(byte num)
         {

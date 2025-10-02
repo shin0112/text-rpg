@@ -60,17 +60,17 @@ namespace TEXT_RPG.Scenes
                 if (encounterProb < 15)
                 {
                     Manager.HeaderText = "훈련이 잘 되었습니다!";
-                    player.UpdateExp(60);
+                    player.AddExp(60);
                 }
                 else if (encounterProb < 60)
                 {
                     Manager.HeaderText = "오늘하루 열심히 훈련했습니다.";
-                    player.UpdateExp(40);
+                    player.AddExp(40);
                 }
                 else
                 {
                     Manager.HeaderText = "하기 싫다... 훈련이...";
-                    player.UpdateExp(30);
+                    player.AddExp(30);
                 }
             }
         }
@@ -85,22 +85,22 @@ namespace TEXT_RPG.Scenes
                 if (encounterProb < 10)
                 {
                     Manager.HeaderText = "마을 아이들이 모여있다. 간식을 사줘볼까?";
-                    player.UpdateGold(-500);
+                    player.AddGold(-500);
                 }
                 else if (encounterProb < 20)
                 {
                     Manager.HeaderText = "촌장님을 만나서 심부름을 했다.";
-                    player.UpdateGold(2000);
+                    player.AddGold(2000);
                 }
                 else if (encounterProb < 40)
                 {
                     Manager.HeaderText = "길 읽은 사람을 안내해주었다.";
-                    player.UpdateGold(1000);
+                    player.AddGold(1000);
                 }
                 else if (encounterProb < 70)
                 {
                     Manager.HeaderText = "마을 주민과 인사를 나눴다. 선물을 받았다.";
-                    player.UpdateGold(500);
+                    player.AddGold(500);
                 }
                 else
                 {
@@ -120,7 +120,7 @@ namespace TEXT_RPG.Scenes
                 {
                     case 0:
                         Manager.HeaderText = "몬스터 조우! 골드 500 획득";
-                        player.UpdateGold(500);
+                        player.AddGold(500);
                         break;
                     case 1:
                         Manager.HeaderText = "아무 일도 일어나지 않았다";

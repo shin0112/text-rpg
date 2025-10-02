@@ -31,8 +31,8 @@
             }
             else if (shopEntry.Item.Price <= player.Gold) // 보유금액 충족
             {
-                player.UpdateGold(-shopEntry.Item.Price);
-                player.GetItem(shopEntry.Item);
+                player.AddGold(-shopEntry.Item.Price);
+                player.AddItem(shopEntry.Item);
                 shopEntry.TogglePurchased();
                 GameManager.Instance.HeaderText = "구매를 완료했습니다.";
             }

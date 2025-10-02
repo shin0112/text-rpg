@@ -24,7 +24,7 @@ namespace TEXT_RPG.Scenes.Shop
                     item.ToggleEquip();
                 }
 
-                Manager.Player.UpdateGold((int)(item.Price * 0.85));
+                Manager.Player.AddGold((int)(item.Price * 0.85));
                 Manager.Player.RemoveItem(item);
             }
         }
