@@ -1,4 +1,5 @@
-﻿using TEXT_RPG.Data;
+﻿using TEXT_RPG.Core.DTO;
+using TEXT_RPG.Data;
 
 namespace TEXT_RPG.Core
 {
@@ -34,6 +35,25 @@ namespace TEXT_RPG.Core
         public void ToggleEquip()
         {
             IsEquipped = !IsEquipped;
+        }
+        public ItemDto ToDto()
+        {
+            return new ItemDto
+            {
+                Name = Name,
+                Type = Type,
+                Value = Value,
+                Description = Description,
+                IsEquipped = IsEquipped,
+                Price = Price
+            };
+        }
+
+        public static Item FromDto(ItemDto dto)
+        {
+            var item = new Item(dto.Name, dto.Type, dto.Value, dto.Description, dto.Price);
+            if (dto.IsEquipped) item.ToggleEquip();
+            return item;
         }
     }
 }

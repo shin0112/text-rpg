@@ -1,4 +1,5 @@
-﻿using TEXT_RPG.Data;
+﻿using TEXT_RPG.Core.DTO;
+using TEXT_RPG.Data;
 using TEXT_RPG.Manager;
 
 namespace TEXT_RPG.Core
@@ -158,6 +159,51 @@ namespace TEXT_RPG.Core
             // 새 장비 장착
             Equipped[type] = item;
             item.ToggleEquip();
+        }
+
+        public PlayerDto ToDto()
+        {
+            return new PlayerDto
+            {
+                Level = Level,
+                Name = Name,
+                Job = Job,
+                AttackPower = AttackPower,
+                DefensePower = DefensePower,
+                Hp = Hp,
+                Stamina = Stamina,
+                Exp = Exp,
+                Gold = Gold,
+                Items = Items.Select(i => i.ToDto()).ToList(),
+                Equipped = Equipped.ToDictionary(
+                    kv => kv.Key,
+                    kv => kv.Value?.ToDto()
+                )
+            };
+        }
+
+        public static Player FromDto(PlayerDto dto)
+        {
+            var player = new Player(dto.Name, dto.Job)
+            {
+                Level = dto.Level,
+                AttackPower = dto.AttackPower,
+                DefensePower = dto.DefensePower,
+                Hp = dto.Hp,
+                Stamina = dto.Stamina,
+                Exp = dto.Exp,
+                Gold = dto.Gold
+            };
+
+            player.Items.Clear();
+            foreach (var itemDto in dto.Items)
+                player.AddItem(Item.FromDto(itemDto));
+
+            foreach (var kv in dto.Equipped)
+                if (kv.Value != null)
+                    player.Equipped[kv.Key] = Item.FromDto(kv.Value);
+
+            return player;
         }
     }
 }
