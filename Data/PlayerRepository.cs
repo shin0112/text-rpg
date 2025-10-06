@@ -19,15 +19,26 @@ namespace TEXT_RPG.Data
         {
             try
             {
-                if (File.Exists(FilePath))
+                if (!File.Exists(FilePath))
                 {
-                    string userData = File.ReadAllText(FilePath);
-                    return JsonConvert.DeserializeObject<PlayerDto>(userData)!;
+                    Console.WriteLine("파일 존재하지 않음");
+                    return null;
                 }
+
+                string userData = File.ReadAllText(FilePath);
+                return JsonConvert.DeserializeObject<PlayerDto>(userData)!;
             }
-            catch (FileNotFoundException e)
+            catch (JsonException e)
             {
-                Console.WriteLine($"데이터 로드 중 오류 발생: {e.Message}");
+                Console.WriteLine($"JSON 역직렬화 중 오류 발생: {e.Message}");
+            }
+            catch (IOException e)
+            {
+                Console.WriteLine($"파일 입출력 중 오류 발생: {e.Message}");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"예기치 못한 오류 발생: {e.Message}");
             }
 
             return null;
