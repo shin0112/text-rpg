@@ -8,6 +8,11 @@ namespace TEXT_RPG.Core
     {
         public List<ShopEntry> ShopEntries { get; private set; } = [];
 
+        public Shop()
+        {
+            InitializeDefaultItems();
+        }
+
         public void InitializeDefaultItems()
         {
             // 상점 아이템 리스트
@@ -49,6 +54,15 @@ namespace TEXT_RPG.Core
         public ShopDto ToDto()
         {
             return new ShopDto { ShopEntries = [.. ShopEntries.Select(i => i.ToDto())] };
+        }
+
+        internal static Shop FromDto(ShopDto shopDto)
+        {
+            var shop = new Shop();
+            shop.ShopEntries.Clear();
+            shop.ShopEntries = [.. shopDto.ShopEntries.Select(ShopEntry.FromDto)];
+
+            return shop;
         }
     }
 }

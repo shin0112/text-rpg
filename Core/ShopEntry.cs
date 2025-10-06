@@ -26,5 +26,12 @@ namespace TEXT_RPG.Core
                 IsPurchased = IsPurchased
             };
         }
+
+        internal static ShopEntry FromDto(ShopEntryDto shopEntryDto)
+        {
+            return new ShopEntry(
+                Item.FromDto(shopEntryDto.Item),
+                shopEntryDto.IsPurchased);
+        }
     }
 }
