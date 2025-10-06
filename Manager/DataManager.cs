@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using TEXT_RPG.Core;
+﻿using TEXT_RPG.Core;
 using TEXT_RPG.Core.DTO;
 using TEXT_RPG.Data;
 
@@ -12,13 +11,12 @@ namespace TEXT_RPG.Manager
 
         private static readonly GameManager manager = GameManager.Instance;
         private readonly PlayerRepository playerRepository = new();
+        private readonly ShopRepository shopRepository = new();
 
         public void SaveData()
         {
             playerRepository.Save(manager.Player.ToDto());
-            string shopData = JsonConvert.SerializeObject(manager.Shop);
-
-            File.WriteAllText(FILE_PATH + SHOP_FILE_NAME, shopData);
+            shopRepository.Save(manager.Shop.ToDto());
 
             manager.HeaderText = "저장 완료";
         }
@@ -35,6 +33,12 @@ namespace TEXT_RPG.Manager
             {
                 manager.Player = Player.FromDto(playerDto);
             }
+
+            // 상점
+            ShopDto? shopDto = shopRepository.Get();
+            manager.Shop = shopDto == null ?
+                new Shop() :
+                Shop.FromDto(shopDto);
         }
     }
 }
