@@ -1,4 +1,5 @@
-﻿using TEXT_RPG.Data;
+﻿using TEXT_RPG.Core.DTO;
+using TEXT_RPG.Data;
 using TEXT_RPG.Manager;
 
 namespace TEXT_RPG.Core
@@ -43,6 +44,11 @@ namespace TEXT_RPG.Core
             {
                 GameManager.Instance.HeaderText = "Gold가 부족합니다.";
             }
+        }
+
+        public ShopDto ToDto()
+        {
+            return new ShopDto { ShopEntries = [.. ShopEntries.Select(i => i.ToDto())] };
         }
     }
 }

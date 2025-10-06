@@ -1,4 +1,6 @@
-﻿namespace TEXT_RPG.Core
+﻿using TEXT_RPG.Core.DTO;
+
+namespace TEXT_RPG.Core
 {
     internal class ShopEntry
     {
@@ -14,6 +16,15 @@
         public void TogglePurchased()
         {
             IsPurchased |= !IsPurchased;
+        }
+
+        public ShopEntryDto ToDto()
+        {
+            return new ShopEntryDto
+            {
+                Item = Item.ToDto(),
+                IsPurchased = IsPurchased
+            };
         }
     }
 }
