@@ -1,5 +1,7 @@
 ﻿using Newtonsoft.Json;
 using TEXT_RPG.Core;
+using TEXT_RPG.Core.DTO;
+using TEXT_RPG.Data;
 
 namespace TEXT_RPG.Manager
 {
@@ -8,18 +10,17 @@ namespace TEXT_RPG.Manager
         private static DataManager _instance = new();
         public static DataManager Instance = _instance;
 
-        private static readonly string FILE_PATH = "../";
-        private static readonly string USER_FILE_NAME = "user.json";
+        public static readonly string FILE_PATH = "../";
         private static readonly string SHOP_FILE_NAME = "shop.json";
 
-        private static GameManager manager = GameManager.Instance;
+        private static readonly GameManager manager = GameManager.Instance;
+        private readonly PlayerRepository playerRepository = new();
 
         public void SaveData()
         {
-            string userData = JsonConvert.SerializeObject(manager.Player);
+            playerRepository.Save(manager.Player.ToDto());
             string shopData = JsonConvert.SerializeObject(manager.Shop);
 
-            File.WriteAllText(FILE_PATH + USER_FILE_NAME, userData);
             File.WriteAllText(FILE_PATH + SHOP_FILE_NAME, shopData);
 
             manager.HeaderText = "저장 완료";
@@ -27,34 +28,15 @@ namespace TEXT_RPG.Manager
 
         public void LoadData()
         {
-            try
+            // 플레이어
+            PlayerDto? playerDto = playerRepository.Get();
+            if (playerDto == null)
             {
-                if (File.Exists(FILE_PATH + USER_FILE_NAME))
-                {
-                    string userData = File.ReadAllText(FILE_PATH + USER_FILE_NAME);
-                    manager.Player = JsonConvert.DeserializeObject<Player>(userData)!;
-                }
-                else
-                {
-                    manager.Player = new("아무개", Data.PlayerJob.전사);
-                }
-
-                if (File.Exists(FILE_PATH + SHOP_FILE_NAME))
-                {
-                    string shopData = File.ReadAllText(FILE_PATH + SHOP_FILE_NAME);
-                    manager.Shop = JsonConvert.DeserializeObject<Shop>(shopData)!;
-                }
-                else
-                {
-                    manager.Shop = new Shop();
-                    manager.Shop.InitializeDefaultItems();
-                }
+                manager.Player = new Player("아무개", PlayerJob.전사);
             }
-            catch (Exception ex)
+            else
             {
-                Console.WriteLine($"데이터 로드 중 오류 발생: {ex.Message}");
-                manager.Player = new("아무개", Data.PlayerJob.전사);
-                manager.Shop = new();
+                manager.Player = Player.FromDto(playerDto);
             }
         }
     }
