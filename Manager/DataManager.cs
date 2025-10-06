@@ -10,9 +10,6 @@ namespace TEXT_RPG.Manager
         private static DataManager _instance = new();
         public static DataManager Instance = _instance;
 
-        public static readonly string FILE_PATH = "../";
-        private static readonly string SHOP_FILE_NAME = "shop.json";
-
         private static readonly GameManager manager = GameManager.Instance;
         private readonly PlayerRepository playerRepository = new();
 

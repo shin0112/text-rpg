@@ -1,12 +1,12 @@
 ﻿using Newtonsoft.Json;
+using TEXT_RPG.Config;
 using TEXT_RPG.Core.DTO;
-using TEXT_RPG.Manager;
 
 namespace TEXT_RPG.Data
 {
     internal class PlayerRepository
     {
-        private static readonly string FilePath = DataManager.FILE_PATH + "player.json";
+        private static readonly string FilePath = PathConfig.PLAYER_FILE_PATH;
 
         public void Save(PlayerDto playerDto)
         {
