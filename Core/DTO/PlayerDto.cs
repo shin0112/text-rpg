@@ -13,7 +13,7 @@ namespace TEXT_RPG.Core.DTO
         public int Stamina { get; init; }
         public int Exp { get; init; }
         public int Gold { get; init; }
-        public List<ItemDto> Items { get; init; } = new();
-        public Dictionary<ItemType, ItemDto?> Equipped { get; init; } = new();
+        public List<ItemDto> Items { get; init; } = [];
+        public Dictionary<ItemType, ItemDto?> Equipped { get; init; } = [];
     }
 }

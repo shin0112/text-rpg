@@ -6,7 +6,7 @@ namespace TEXT_RPG.Core
 {
     internal class Shop
     {
-        public List<ShopEntry> ShopEntries { get; private set; } = new();
+        public List<ShopEntry> ShopEntries { get; private set; } = [];
 
         public void InitializeDefaultItems()
         {
