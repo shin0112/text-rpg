@@ -2,7 +2,7 @@
 {
     internal record class ShopEntryDto
     {
-        public ItemDto Item { get; init; }
+        public required ItemDto Item { get; init; }
         public bool IsPurchased { get; init; }
     }
 }
